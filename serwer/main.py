@@ -1,16 +1,13 @@
 from aiohttp import web
 
 async def handle(request):
-    name = request.match_info.get('name', "Anonymous")
-    text = "Hello, " + name
-    return web.Response(text=text)
+    return web.json_response(text="{}")
 
-async def helloWorld(app):
-    print("Starting server, hello world :)")
+async def defaultHandle(request):
+    return web.Response(text="404: Not Found")
 
 app = web.Application()
-app.on_startup.append(helloWorld)
-app.add_routes([web.get('/', handle),
-                web.get('/{name}', handle)])
+app.add_routes([web.get('/', defaultHandle),
+                web.get('/getData', handle)])
 
-web.run_app(app)
+web.run_app(app, host="127.0.0.1", port=8080)
