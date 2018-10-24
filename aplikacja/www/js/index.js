@@ -49,10 +49,10 @@
 		  dataType: 'json',
 		  success: function(data) {
 
-			$(".smog-row").empty();
+			//$(".smog-row").empty();
 
 			$.each(data.PM10, function(key, val) {
-				$("#smog-table").append("<tr class='smog-row'><td>" + val + "</td><td>" + data.O3[key] + "</td><td>" + data.SO2[key] + "</td><td>" + data.PM25[key] + "</td></tr>");
+				//$("#smog-table").append("<tr class='smog-row'><td>" + val + "</td><td>" + data.O3[key] + "</td><td>" + data.SO2[key] + "</td><td>" + data.PM25[key] + "</td></tr>");
 			});
 		},
       statusCode: {
