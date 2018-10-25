@@ -186,6 +186,7 @@ h1 {
     min-height: 100vh;
     margin-left: -220px;
 	transition: all 0.3s;
+	touch-action: none;
 }
 
 #sidebar .sidebar-header {
