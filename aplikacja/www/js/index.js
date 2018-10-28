@@ -26,8 +26,8 @@
 		$('#sidebar').toggleClass('active');
     });
 
-	$("#tomek").click( function(){
-		$("#tomasz").toggle()
+	$("#about").click( function(){
+		$("#aboutBar").toggle()
 		});
 
 	//zmiana zrodla

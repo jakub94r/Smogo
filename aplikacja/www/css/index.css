@@ -190,10 +190,6 @@ h1 {
 }
 
 #sidebar .sidebar-header {
-    padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 20px;
-	padding-right: 70px;
     background: #22262a;
 }
 	
@@ -210,8 +206,9 @@ a[data-toggle="collapse"] {
 }
 
 .sidebar-components {
+    width: 220px;
+    min-width: 220px;
 	position: fixed;
-	
 }
 
 .sidebar-menu-font {
@@ -219,7 +216,7 @@ a[data-toggle="collapse"] {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: #DDDDDD;
 }
 
 @media (min-width: 768px) {
@@ -232,14 +229,6 @@ a[data-toggle="collapse"] {
         min-width: 220px;
         max-width: 220px;
     }
-	
-	#sidebar .sidebar-header {
-    padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 20px;
-	padding-right: 60px;
-    background: #22262a;
-}
 
     #sidebarCollapse {
         display: none;
