@@ -20,7 +20,7 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 #content {
-    min-height: calc(100vmax - 1.25rem - 39px);
+    min-height: calc(100vh - 1.25rem - 39px);
     background-color:#E4E4E4;
     background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -190,10 +190,8 @@ h1 {
 }
 
 #sidebar .sidebar-header {
-    padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 20px;
-	padding-right: 70px;
+    width: 220px;
+    max-width: 220px;
     background: #22262a;
 }
 	
