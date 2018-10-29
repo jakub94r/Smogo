@@ -24,8 +24,8 @@
 
 	 //zmienne do wykresow
 	 var chartLabels = [];
-	 var chartUnits = [];
 	 var chartData = [];
+	 var chartRawData = [];
 	 var chartStatuses = [];
 	 var chartBackgroundColors = [];
 	 var chartBorderColors = [];
@@ -102,7 +102,7 @@
 			 data: {
 				 labels: chartLabels,
 				 datasets: [{
-					 label: chartLabel,
+					 label: "legenda",
 					 data: chartData,
 					 backgroundColor: chartBackgroundColors,
 					 borderColor: chartBorderColors,
@@ -113,9 +113,27 @@
 				 scales: {
 					 yAxes: [{
 						 ticks: {
-							 beginAtZero: true
+							 display: false
 						 }
 					 }]
+				 },
+				 legend: {
+					display: false
+				},
+				title: {
+					display: true,
+					text: chartLabel,
+					fontSize: 14
+				},
+				animation: {
+					duration: 250
+				},
+				 tooltips: {
+					callbacks: {
+					   label: function(tooltipItem, data) {
+							return chartRawData[tooltipItem.index] + ' µg/m3';
+					   }
+					}
 				 }
 			 }
 		 });
@@ -130,7 +148,6 @@
 			 success: function (data) {
 
 				 chartLabels = [];
-				 chartUnits = [];
 				 chartData = [];
 				 chartStatuses = [];
 				 chartBackgroundColors = [];
@@ -140,8 +157,8 @@
 				 $.each(data.data, function (i, item) {
 					 chartLabels.push(item.name);
 					 chartData.push(item.value);
-					 chartUnits.push(item.unit);
-					 chartStatuses.push(item.status)
+					 chartStatuses.push(item.status);
+					 chartRawData.push(item.raw_value);
 				 })
 				 pickColors()
 				 drawChart()	//narysuj wykres

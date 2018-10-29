@@ -2,12 +2,12 @@
 	"name": "YOUR_GEO",
     "data": 
     [ 
-        { "name": "PM10", "unit": "µg", "value": "5", "status": "verygood"}, 
-        { "name": "PM2.5", "unit": "µg", "value": "21", "status": "good"}, 
-        { "name": "SO2", "unit": "µg", "value": "35", "status": "medium"}, 
-		{ "name": "O3", "unit": "µg", "value": "42", "status": "bad"}, 
-		{ "name": "NO2", "unit": "µg", "value": "71", "status": "verybad"}, 
-		{ "name": "CO", "unit": "mg", "value": "0.4", "status": "verygood"}, 
-		{ "name": "C6H6", "unit": "µg", "value": "1", "status": "verygood"}
+        { "name": "PM10", "value": "5", "raw_value": "12", "status": "verygood"}, 
+        { "name": "PM2.5", "value": "21", "raw_value": "17", "status": "good"}, 
+        { "name": "SO2", "value": "35", "raw_value": "24", "status": "medium"}, 
+		{ "name": "O3", "value": "42", "raw_value": "33", "status": "bad"}, 
+		{ "name": "NO2", "value": "71", "raw_value": "56", "status": "verybad"}, 
+		{ "name": "CO", "value": "0.4", "raw_value": "456", "status": "verygood"}, 
+		{ "name": "C6H6", "value": "1", "raw_value": "1", "status": "verygood"}
     ]
 }
