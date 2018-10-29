@@ -1,90 +1,76 @@
 <!DOCTYPE html>
 <html>
-    <head>
-		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="css/index.css">
-		<title>Smogodynka</title>
-    </head>
-    <body>
-        <nav class="navbar sticky-top navbar-dark bg-black">
-            <button id="sidebarCollapse" class="navbar-toggler" type="button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand mx-auto" href="#">SMOGODYNKA</a>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            </div>
-        </nav>
-        <div class="wrapper">
-            <!-- Sidebar -->
-            <nav id="sidebar" class="navbar-dark bg-dark">
-				<div class="sidebar-components">
-					<p align=center class="sidebar-header py-4 mx-auto sidebar-menu-font">Smogodynka menu</p>
-					<ul class="list-unstyled components">
-						<li>
-							<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Wybierz źródło</a>
-							<ul class="collapse" id="homeSubmenu">
-								<li>
-									<button id="source1" class="btn-sidebar">Źródło 1</button>
-								</li>
-								<li>
-									<button id="source2" class="btn-sidebar">Źródło 2</button>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<button id="load" class="btn-sidebar">Wymuś wczytanie</button>
-						</li>
-						<li>
-							<button id="about" class="btn-sidebar">O aplikacji</button>
-						</li>
-					</ul>
-				</div>
-            </nav>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>Smogodynka</title>
+</head>
+<body>
+<nav class="navbar sticky-top navbar-dark bg-black">
+    <button id="sidebarCollapse" class="navbar-toggler" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand mx-auto" href="#">SMOGODYNKA</a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    </div>
+</nav>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar" class="navbar-dark bg-dark">
+        <div class="sidebar-components">
+            <p align=center class="sidebar-header py-4 mx-auto sidebar-menu-font">Smogodynka menu</p>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Wybierz źródło</a>
+                    <ul class="collapse" id="homeSubmenu">
+                        <li>
+                            <button id="source1" class="btn-sidebar">Źródło 1</button>
+                        </li>
+                        <li>
+                            <button id="source2" class="btn-sidebar">Źródło 2</button>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <button id="load" class="btn-sidebar">Wymuś wczytanie</button>
+                </li>
+                <li>
+                    <button id="about" class="btn-sidebar">O aplikacji</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-            <!-- Zawartosc strony ktora reaguje z sidebarem (przesun, wyciemnij itp.) -->
-
-            <div id="content" class="container-fluid">
-                <div class="col-12 mx-auto">
-                    <div id="deviceready">
-                        <div class="blink">
-                            <p></p>
-                            <p class="event listening">Connecting to Device</p>
-                            <p class="event received">Wczytywanie automatyczne co 15s.</p>
-                            <p id="aboutBar" class="event received">TBD</p>
-                            <p></p>
-                        </div>
-                    </div>
-
-                    <table id="smog-table" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th class="col-md-2">PM10</th>
-                                <th class="col-md-2">PM2.5</th>
-                                <th class="col-md-2">O3</th>
-                                <th class="col-md-2">SO2</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="smog-row">
-                                <td>Brak</td>
-                                <td>Brak</td>
-                                <td>Brak</td>
-                                <td>Brak</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <!-- Zawartosc strony ktora reaguje z sidebarem (przesun, wyciemnij itp.) -->
+    <div id="content" class="container-fluid">
+        <div class="col-12 mx-auto">
+            <div id="deviceready">
+                <div class="blink">
+                    <p></p>
+                    <p class="event listening">Connecting to Device</p>
+                    <p class="event received">Wczytywanie automatyczne co 15s.</p>
+                    <p id="aboutBar" class="event received">TBD</p>
+                    <p></p>
                 </div>
             </div>
+            <canvas id="myChart" class="chart mx-auto"></canvas>
         </div>
+    </div>
+</div>
 
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-	</body>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/mdb.min.js"></script>
+<script type="text/javascript" src="js/popper.min.js"></script>
+</body>
 </html>

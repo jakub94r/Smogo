@@ -224,6 +224,7 @@ a[data-toggle="collapse"] {
         position: relative;
         margin-left: 0px;
     }
+    
     #sidebar.active {
         margin-left: 0;
         min-width: 220px;
@@ -232,5 +233,9 @@ a[data-toggle="collapse"] {
 
     #sidebarCollapse {
         display: none;
+    }
+
+    #myChart {
+        max-width: 50%;
     }
 }

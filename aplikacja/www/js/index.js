@@ -20,7 +20,32 @@
  $(document).ready(function() {
 
 
- 	var filename = 'smog.json'
+	 var filename = 'smog.json'
+
+	 //zmienne do wykresow
+	 var chartLabels = [];
+	 var chartUnits = [];
+	 var chartData = [];
+	 var chartStatuses = [];
+	 var chartBackgroundColors = [];
+	 var chartBorderColors = [];
+	 var chartLabel;
+
+	 //paleta kolorow dla poszczegolnych stanow zanieczyszcenia
+	 var backgroundColorsPallet = [
+		'rgba(0, 148, 0, 0.8)',		//very good
+		'rgba(81, 255, 81, 0.8)', //good
+		'rgba(230, 230, 0, 0.8)', //medium
+		'rgba(255, 77, 77, 0.8)', //bad
+		'rgba(128, 0, 0, 0.8)'];	//verybad
+		
+		//krawedzie slupkow
+		var borderdColorsPallet = [
+		'rgba(0, 148, 0, 1)',
+		'rgba(81, 255, 81, 1)',
+		'rgba(230, 230, 0, 1)',
+		'rgba(255, 77, 77, 1)',
+		'rgba(128, 0, 0, 1)'];
 
 	$('#sidebarCollapse').on('click', function () {
 		$('#sidebar').toggleClass('active');
@@ -40,39 +65,106 @@
 		filename = 'smog2.json'
 		alert('Zmieniono źródło na 2');
 		});
+	
+	 //dobierz kolory slupkow na podstawie stanu z json-a
+	 function pickColors() {
+		 chartStatuses.forEach(function (item, index) {
+			 switch (item) {
+				 case "verygood":
+					 chartBackgroundColors.push(backgroundColorsPallet[0]);
+					 chartBorderColors.push(borderdColorsPallet[0]);
+					 break;
+				 case "good":
+					 chartBackgroundColors.push(backgroundColorsPallet[1]);
+					 chartBorderColors.push(borderdColorsPallet[1]);
+					 break;
+				 case "medium":
+					 chartBackgroundColors.push(backgroundColorsPallet[2]);
+					 chartBorderColors.push(borderdColorsPallet[2]);
+					 break;
+				 case "bad":
+					 chartBackgroundColors.push(backgroundColorsPallet[3]);
+					 chartBorderColors.push(borderdColorsPallet[3]);
+					 break;
+				 case "verybad":
+					 chartBackgroundColors.push(backgroundColorsPallet[4]);
+					 chartBorderColors.push(borderdColorsPallet[4]);
+					 break;
+			 }
+		 });
+	 }
 
-	//funkcja wczytania danych, na razie z pliku
-	function load() {
-	  $.ajax({
-		  type: 'GET',
-		  url: filename,
-		  dataType: 'json',
-		  success: function(data) {
+	 //rysuj wykres
+	 function drawChart() {
+		 var ctx = document.getElementById("myChart").getContext('2d');
+		 var myChart = new Chart(ctx, {
+			 type: 'bar',
+			 data: {
+				 labels: chartLabels,
+				 datasets: [{
+					 label: chartLabel,
+					 data: chartData,
+					 backgroundColor: chartBackgroundColors,
+					 borderColor: chartBorderColors,
+					 borderWidth: 2
+				 }]
+			 },
+			 options: {
+				 scales: {
+					 yAxes: [{
+						 ticks: {
+							 beginAtZero: true
+						 }
+					 }]
+				 }
+			 }
+		 });
+	 };
 
-			$(".smog-row").empty();
+	 //wczytaj dane
+	 function load() {
+		 $.ajax({
+			 type: 'GET',
+			 url: filename,
+			 dataType: 'json',
+			 success: function (data) {
 
-			$.each(data.PM10, function(key, val) {
-				$("#smog-table").append("<tr class='smog-row'><td>" + val + "</td><td>" + data.O3[key] + "</td><td>" + data.SO2[key] + "</td><td>" + data.PM25[key] + "</td></tr>");
-			});
-		},
-      statusCode: {
-         404: function() {
-           alert('Could not load data');
-         }
-       }
-    });
-  }
-  
-	//uruchamiaj funkcje wczytania co 15s.
-	window.setInterval(function(){
-	  load()
-	  }, 15000);
-		
-	//uruchom funkcje wczytania guzikiem
-	$('#load').click(function() {
-       load()
-	});
-});
+				 chartLabels = [];
+				 chartUnits = [];
+				 chartData = [];
+				 chartStatuses = [];
+				 chartBackgroundColors = [];
+				 chartBorderColors = [];
+				 chartLabel = data.name;
+
+				 $.each(data.data, function (i, item) {
+					 chartLabels.push(item.name);
+					 chartData.push(item.value);
+					 chartUnits.push(item.unit);
+					 chartStatuses.push(item.status)
+				 })
+				 pickColors()
+				 drawChart()	//narysuj wykres
+			 },
+			 statusCode: {
+				 404: function () {
+					 alert('Could not load data');
+				 }
+			 }
+		 });
+	 }
+
+	 //uruchom funkcje wczytania/rysowania raz, potem uruchamiaj co 15s.
+	 load()
+	 window.setInterval(function () {
+		 load()
+	 }, 15000);
+
+	 //uruchom funkcje guzikiem
+	 $('#load').click(function () {
+		 load()
+	 });
+ });
 
 var app = {
     // Application Constructor
@@ -86,7 +178,6 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
-		$("#tomasz").hide()
     },
 
     // Update DOM on a Received Event

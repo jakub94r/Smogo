@@ -1,6 +1,13 @@
-{
-"PM25":["9"],
-"PM10":["4"],
-"O3" : ["brak"],
-"SO2" : ["1.5"]
+{ 
+	"name": "YOUR_GEO_2",
+    "data": 
+    [ 
+        { "name": "PM10", "unit": "µg", "value": "75", "status": "verybad"}, 
+        { "name": "PM2.5", "unit": "µg", "value": "31", "status": "good"}, 
+        { "name": "SO2", "unit": "µg", "value": "40", "status": "medium"}, 
+		{ "name": "O3", "unit": "µg", "value": "48", "status": "bad"}, 
+		{ "name": "NO2", "unit": "µg", "value": "51", "status": "bad"}, 
+		{ "name": "CO", "unit": "mg", "value": "0.7", "status": "verygood"}, 
+		{ "name": "C6H6", "unit": "µg", "value": "3", "status": "verygood"}
+    ]
 }
