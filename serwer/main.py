@@ -1,7 +1,8 @@
 from aiohttp import web
 
-from serwer.DataGenerator import DataGenerator
-from serwer.WebCrawler import WebCrawler
+from core.DataGenerator import DataGenerator
+from core.WebCrawler import WebCrawler
+import logging
 
 hostAddr = "127.0.0.1"
 portNum = 8080
@@ -19,7 +20,13 @@ async def on_shutdown(app):
     webCrawler.stop()
 
 app = web.Application()
-app.add_routes([web.get('/', defaultHandle), web.get('/getData', handle)])
+app.add_routes(
+    [
+        web.get('/', defaultHandle),
+        web.get('/getData', handle)
+    ]
+)
 app.on_shutdown.append(on_shutdown(app))
 
+webCrawler.start()
 web.run_app(app, host=hostAddr, port=portNum)
