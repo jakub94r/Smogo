@@ -6,7 +6,7 @@ from serwer.core.ServerInfo import ServerInfo
 
 class WebCrawler:
     def __init__(self):
-        self.__servers = {}
+        self.__servers = []
         self.loadConfigs()
         self.crawlerThread = None
 
@@ -32,6 +32,6 @@ class WebCrawler:
             info.url = server["url"]
             info.apiKey = server["apiKey"]
             info.parser = server["parser"]
-            self.__servers[info.name] = info
+            self.__servers.append(info)
 
 
