@@ -8,6 +8,7 @@ hostAddr = "127.0.0.1"
 portNum = 8080
 
 webCrawler = WebCrawler()
+webCrawler.loadConfigs("configs\servers.json")
 generator = DataGenerator()
 
 async def handle(request):

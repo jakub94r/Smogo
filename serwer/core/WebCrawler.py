@@ -1,25 +1,48 @@
 import json
 import os
+import threading
 
+from core.ServerInfo import ServerInfo
+from tools.Logger import Logger
 from core.DataNormalizer import DataNormalizer
-from serwer.core.ServerInfo import ServerInfo
 
 class WebCrawler:
     def __init__(self):
-        self.__servers = []
-        self.loadConfigs()
-        self.crawlerThread = None
+        self._servers = []
+        self._initLogger()
+        self.threadStop = threading.Event()
+        self.crawlerThread = None # :type threading.Timer
+        self.getServersData = threading.Lock()
+        self._aliveCounter = 0
+
+    def _initLogger(self):
+        self.logger = Logger()
+        self.logger.setLoggingPath("logs/logs.log")
 
     def start(self):
-        print('Crawler Started.')
-        for serverInfo in self.__servers:
-            self._queryServer(serverInfo)
+        self._aliveCounter = 0
+        self.threadStop.clear()
+        self.logger.debug('Crawler Started.')
+        self.crawlerThread = threading.Thread(target=self._listen)
+        self.crawlerThread.start()
 
     def stop(self):
-        print('Crawler Stopped.')
+        self.threadStop.set()
+        self.crawlerThread.join()
+        self.logger.debug('Crawler Stopped.')
 
     def _listen(self):
-        pass
+        while not self.threadStop.is_set():
+            try:
+                self.getServersData.acquire()
+                for serverInfo in self._servers:
+                    self._queryServer(serverInfo)
+                if self._servers:
+                    self._aliveCounter += 1
+            except Exception as e:
+                self.logger.error(e)
+            finally:
+                self.getServersData.release()
 
     def _queryServer(self, serverInfo):
         parser = DataNormalizer().factory(serverInfo.parser)
@@ -27,18 +50,25 @@ class WebCrawler:
         parser.setApiKey(serverInfo.apiKey)
         parser.sendRequest()
 
-    def loadConfigs(self):
-        filename = "configs\servers.json"
-        serverList = None
-        with open(filename) as dataFile:
-            serverList = json.load(dataFile)
-
-        for server in serverList:
-            info = ServerInfo()
-            info.name = server["name"]
-            info.url = server["url"]
-            info.apiKey = server["apiKey"]
-            info.parser = server["parser"]
-            self.__servers.append(info)
+    def loadConfigs(self, filepath):
+        try:
+            with open(filepath) as dataFile:
+                serverList = json.load(dataFile)
+        except:
+            raise Exception("Couldn't load config from path: {}".format(filepath))
+        try:
+            self.getServersData.acquire()
+            for server in serverList:
+                info = ServerInfo()
+                info.name = server["name"]
+                info.url = server["url"]
+                info.apiKey = server["apiKey"]
+                info.parser = server["parser"]
+                self.logger.debug("Parsed: {}".format(str(info)))
+                self._servers.append(info)
+        except Exception as e:
+            self.logger.error(e)
+        finally:
+            self.getServersData.release()
 
 
