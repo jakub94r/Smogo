@@ -20,7 +20,11 @@
  $(document).ready(function() {
 
 
-	 var filename = 'smog.json'
+	 
+	 var dataAddress = 'http://127.0.0.1:8080'
+	 var getData = dataAddress + '/getData'
+	 
+	 //var getData = 'smog.json' //pobierz dane z pliku, zakomentowac zeby pobierac z serwera
 
 	 //zmienne do wykresow
 	 var chartLabels = [];
@@ -51,20 +55,27 @@
 		$('#sidebar').toggleClass('active');
     });
 
+	//ukryj sidebar klikajac na strone
+	$('#content').on('click', function() {
+		if ($('#sidebar').hasClass('active')) {
+			$("#sidebar").toggleClass('active')
+		}
+	})
+
 	$("#about").click( function(){
 		$("#aboutBar").toggle()
 		});
 
 	//zmiana zrodla
 	$("#source1").click( function(){
-		filename = 'smog.json'
+		getData = 'smog.json'
 		alert('Zmieniono źródło na 1');
 		});
 
 	$("#source2").click( function(){
-		filename = 'smog2.json'
+		getData = 'smog2.json'
 		alert('Zmieniono źródło na 2');
-		});
+		});	
 	
 	 //dobierz kolory slupkow na podstawie stanu z json-a
 	 function pickColors() {
@@ -96,6 +107,14 @@
 
 	 //rysuj wykres
 	 function drawChart() {
+		$("#myChart").remove();
+		$("#chartContainer").append('<canvas id="myChart" class="chart mx-auto"></canvas>');
+
+		//usun wszystkie poprzednie wykresy
+		 $("canvas#myChart").remove();
+		 $("div#canvasDiv").append('<canvas id="myChart" class="chart mx-auto"></canvas>');
+
+		 //rysuj nowy wykres
 		 var ctx = document.getElementById("myChart").getContext('2d');
 		 var myChart = new Chart(ctx, {
 			 type: 'bar',
@@ -143,7 +162,7 @@
 	 function load() {
 		 $.ajax({
 			 type: 'GET',
-			 url: filename,
+			 url: getData,
 			 dataType: 'json',
 			 success: function (data) {
 
