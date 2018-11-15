@@ -3,7 +3,6 @@ import os
 
 from serwer.core.ServerInfo import ServerInfo
 
-
 class WebCrawler:
     def __init__(self):
         self.__servers = []
@@ -20,8 +19,7 @@ class WebCrawler:
         pass
 
     def loadConfigs(self):
-        dirname = os.path.dirname(__file__).replace("\core", "")
-        filename = os.path.join(dirname, 'configs\servers.json')
+        filename = "configs\servers.json"
         serverList = None
         with open(filename) as dataFile:
             serverList = json.load(dataFile)
