@@ -2,3 +2,6 @@ Jinja2==2.8
 aiodns==1.1.1
 aiohttp==3.2.1
 robotframework==3.0.4
+certifi==2018.10.15
+requests==2.20.1
+urllib3==1.24.1

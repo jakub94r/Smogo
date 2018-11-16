@@ -10,5 +10,8 @@ class WebCrawlerMock(WebCrawler):
     def _initLogger(self):
         self.logger = LoggerMock()
 
+    def _queryServer(self, serverInfo):
+        pass
+
     def getAliveCounter(self):
         return self._aliveCounter
