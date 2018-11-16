@@ -12,7 +12,7 @@ class DataNormalizer(object):
     def factory(type):
         if type == "AirlyParser":
             return AirlyParser()
-        assert 0, "Invalid parser type for factory: " + type
+        raise Exception("Invalid factory parser type: {}".format(type))
     factory = staticmethod(factory)
 
     def __normalize(self, data):
