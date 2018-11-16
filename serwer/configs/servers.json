@@ -1,14 +1,7 @@
 [
-
-    {
-        "name": "Giov",
-        "url": "http://powietrze.gios.gov.pl/pjp/content/api",
-        "apiKey": "",
-        "parser": "GiovNormalizer"
-    },
     {
         "name": "Airly",
-        "url": "https://airapi.airly.eu/v2",
+        "url": "https://airapi.airly.eu/v2/measurements/installation?installationId=1127",
         "apiKey": "nNNukEz9wwX5vYtiv0qBm25vrYahvl75",
         "parser": "AirlyParser"
     }
