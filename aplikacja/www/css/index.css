@@ -219,6 +219,22 @@ a[data-toggle="collapse"] {
     color: #DDDDDD;
 }
 
+#smog-table {
+    width: 80%;
+}
+
+#overallState {
+    font-size: 1.1em;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+#overallStateParagraphValue {
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
 @media (min-width: 768px) {
     #sidebar {
         position: relative;
@@ -237,5 +253,9 @@ a[data-toggle="collapse"] {
 
     #myChart {
         max-width: 50%;
+    }
+
+    #smog-table {
+        width: 50%;
     }
 }

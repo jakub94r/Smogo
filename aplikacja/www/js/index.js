@@ -132,7 +132,9 @@
 				 scales: {
 					 yAxes: [{
 						 ticks: {
-							 display: false
+							min: 0,
+							max: 100,
+							display: false
 						 }
 					 }]
 				 },
@@ -181,6 +183,31 @@
 				 })
 				 pickColors()
 				 drawChart()	//narysuj wykres
+				 
+				$("#overallState").empty();
+				$("#overallState").append("<p id='overallStateParagraph'>'Ogólna jakość powietrza: </p>");
+				$("#overallStateParagraph").append("<span id='overallStateParagraphValue'>Bardzo dobra</span>");
+				$("#overallStateParagraphValue").css("color", "rgb(0, 148, 0)");
+				var worstStatus = 5;
+				chartStatuses.forEach(function (item, index)
+				{
+					switch (item) {
+						case "good": if (worstStatus > 4) { worstStatus = 4; $("#overallStateParagraphValue").text('Dobra'); $("#overallStateParagraphValue").css("color", "rgb(0, 197, 5)"); }
+						break;
+						case "medium": if (worstStatus > 3) { worstStatus = 3; $("#overallStateParagraphValue").text('Średnia'); $("#overallStateParagraphValue").css("color", "rgb(202, 204, 0)"); }
+						break;
+						case "bad": if (worstStatus > 2) { worstStatus = 2; $("#overallStateParagraphValue").text('Zła'); $("#overallStateParagraphValue").css("color", "rgb(255, 77, 77)"); }
+						break;
+						case "verybad": if (worstStatus > 1) { worstStatus = 1; $("#overallStateParagraphValue").text('Bardzo zła'); $("#overallStateParagraphValue").css("color", "rgb(128, 0, 0)"); }
+						break;
+					}
+				});
+				console.log(worstStatus);
+
+				 $(".smog-row").empty();
+				 $.each(data.data, function(i, item) {
+					 $(".smog-row").append("<td>" + item.value + "</td>");
+					});
 			 },
 			 statusCode: {
 				 404: function () {
