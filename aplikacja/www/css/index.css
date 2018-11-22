@@ -223,11 +223,34 @@ a[data-toggle="collapse"] {
     width: 80%;
 }
 
+#smog-table .smog-head {
+    color: white; 
+    background-color: rgb(31, 37, 41);
+
+}
+
+#smog-table tbody {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+#smog-table tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+#smog-table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+#smog-table th,
+#smog-table td {
+    border: 1px solid #dee2e6;
+  }
+
 #overallState {
     font-size: 1.1em;
     text-align: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 #overallStateParagraphValue {

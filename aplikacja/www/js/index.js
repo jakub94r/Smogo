@@ -69,14 +69,22 @@
 	//zmiana zrodla
 	$("#source1").click( function(){
 		getData = 'smog.json'
-		alert('Zmieniono źródło na 1');
 		});
 
 	$("#source2").click( function(){
 		getData = 'smog2.json'
-		alert('Zmieniono źródło na 2');
 		});	
 	
+	//lokalizacja i sensory
+	$("#geoButton").click( function(){
+		navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+	});
+
+	$("#sensorButton").click( function(){
+		$("#accelerometerDiv").toggle();
+		$("#gyroscopeDiv").toggle();
+	});
+
 	 //dobierz kolory slupkow na podstawie stanu z json-a
 	 function pickColors() {
 		 chartStatuses.forEach(function (item, index) {
@@ -203,7 +211,9 @@
 					}
 				});
 				console.log(worstStatus);
-
+				var colorValue = $("#overallStateParagraphValue").css('color');
+				$("#smog-table .smog-head").css("background-color", colorValue);
+				console.log(colorValue);
 				 $(".smog-row").empty();
 				 $.each(data.data, function(i, item) {
 					 $(".smog-row").append("<td>" + item.value + "</td>");
@@ -216,6 +226,33 @@
 			 }
 		 });
 	 }
+
+	 //lokalizacja
+	 var localizationString = "";
+	 var onSuccess = function(position) {
+		document.getElementById("geoState").innerHTML="loading";
+		localizationString = 
+		'Latitude: '          + position.coords.latitude          + "</br>" +
+		'Longitude: '         + position.coords.longitude         + "</br>" +
+		'Altitude: '          + position.coords.altitude          + "</br>" +
+		'Accuracy: '          + position.coords.accuracy          + "</br>" +
+		'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + "</br>" +
+		'Heading: '           + position.coords.heading           + "</br>" +
+		'Speed: '             + position.coords.speed             + "</br>" +
+		'Timestamp: '         + position.timestamp                + "</br>";
+			  
+		document.getElementById("geoState").innerHTML=localizationString;
+    };
+
+    function onError(error) {
+		localizationString =
+		'code: '    + error.code    + "</br>" +
+		'message: ' + error.message + "</br>";
+
+		document.getElementById("geoState").innerHTML=localizationString;
+	}
+	
+	var options = { timeout: 30000, enableHighAccuracy: true };
 
 	 //uruchom funkcje wczytania/rysowania raz, potem uruchamiaj co 15s.
 	 load()
@@ -230,9 +267,10 @@
  });
 
 var app = {
+
     // Application Constructor
     initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+		document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     },
 
     // deviceready Event Handler
@@ -240,7 +278,37 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-        this.receivedEvent('deviceready');
+		this.receivedEvent('deviceready');
+
+		//sensory
+		var accXYZ = ["", "", ""];
+		var gyroXYZ = ["", "", ""];
+		
+		function accelerometerListener(event) {
+			accXYZ[0] = "X: " + event.values[0];
+			accXYZ[1] = "Y: " + event.values[1];
+			accXYZ[2] = "Z: " + event.values[2];
+  
+			accelerometerValues = accXYZ.join("</br>");
+			document.getElementById("accelerometerState").innerHTML=accelerometerValues;
+		}
+
+		function gyroscopeListener(event) {
+			gyroXYZ[0] = "X: " + event.values[0];
+			gyroXYZ[1] = "Y: " + event.values[1];
+			gyroXYZ[2] = "Z: " + event.values[2];
+	
+			gyroscopeValues = gyroXYZ.join("</br>");
+			document.getElementById("gyroscopeState").innerHTML=gyroscopeValues;
+		}
+
+		sensors.addSensorListener("ACCELEROMETER", "GAME", accelerometerListener, function(error) {
+			if (error) accelerometerValues = "Could not listen to sensor";
+		});
+
+		sensors.addSensorListener("GYROSCOPE", "GAME", gyroscopeListener, function(error) {
+			if (error) gyroscopeValues = "Could not listen to sensor";
+		});
     },
 
     // Update DOM on a Received Event
