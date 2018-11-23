@@ -1,6 +1,10 @@
+import datetime
 import json
 import time
 import requests
+
+from core.AirData import AirData
+
 
 class DataNormalizer(object):
     def __init__(self):
@@ -36,15 +40,39 @@ class DataNormalizer(object):
     def getData(self):
         return self.__data
 
-    def sendRequest(self):
+    def sendRequest(self, crawler):
         return
 
+    def prepareData(self, response):
+        return
+
+    def getParserType(self):
+        return "Unknown/Invalid"
+
 class AirlyParser(DataNormalizer):
-    def sendRequest(self):
+    def sendRequest(self, crawler):
         headers = {'Accept': 'application/json', 'apikey': self.getApiKey()}
         response = requests.get(self.getUrl(), headers=headers)
 
         with open('parsedData.json', 'w') as outfile:
             json.dump(response.json(), outfile, indent=4, sort_keys=True)
+
+        self.prepareData(response)
+        crawler.saveRequestData(self.getData())
+
+    def prepareData(self, response):
+        json = response.json()
+        data = AirData()
+        data.parserType = self.getParserType()
+        data.requestTime = datetime.datetime.now()
+        data.measureTime = json["current"]["fromDateTime"]
+        values = json["current"]["values"]
+        for value in values:
+            name = value["name"]
+            val = value["value"]
+            data.values[name] = val
+
+    def getParserType(self):
+        return "AirlyParser"
 
 

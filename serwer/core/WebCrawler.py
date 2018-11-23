@@ -13,6 +13,7 @@ class WebCrawler:
         self.threadStop = threading.Event()
         self.crawlerThread = None # :type threading.Timer
         self.getServersData = threading.Lock()
+        self._gatheredData = []
         self._aliveCounter = 0
 
     def _initLogger(self):
@@ -48,7 +49,10 @@ class WebCrawler:
         parser = DataNormalizer().factory(serverInfo.parser)
         parser.setUrl(serverInfo.url)
         parser.setApiKey(serverInfo.apiKey)
-        parser.sendRequest()
+        parser.sendRequest(crawler=self)
+
+    def saveRequestData(self, data):
+        self._gatheredData.append(data)
 
     def loadConfigs(self, filepath):
         try:
