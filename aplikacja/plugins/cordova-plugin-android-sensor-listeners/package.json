@@ -1,0 +1,63 @@
+{
+  "_from": "git+https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners.git",
+  "_id": "cordova-plugin-android-sensor-listeners@0.2.0",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cordova-plugin-android-sensor-listeners",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners.git",
+    "rawSpec": "https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners.git",
+    "saveSpec": "git+https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners.git",
+    "fetchSpec": "https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners.git#fc669e4a59cb43b777c1b76a9487ffce6e7562d3",
+  "_spec": "https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners.git",
+  "_where": "E:\\2p2\\smogo\\projekt-pds\\aplikacja",
+  "author": {
+    "name": "Quentin Roy",
+    "email": "quentin@quentinroy.fr"
+  },
+  "bugs": {
+    "url": "https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-android-sensor-listeners",
+    "platforms": [
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "This plugin gives Cordova applications access to Android's sensors",
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-config-es5": "^0.5.0",
+    "standard-version": "^4.2.0"
+  },
+  "engines": {
+    "cordova": ">=3.4.0"
+  },
+  "homepage": "https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "sensors"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-android-sensor-listeners",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuentinRoy/cordova-plugin-android-sensor-listeners.git"
+  },
+  "scripts": {
+    "release": "standard-version"
+  },
+  "version": "0.2.0"
+}

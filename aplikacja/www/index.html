@@ -72,18 +72,21 @@
                 <div class="blink">
                     <p></p>
                     <p class="event listening">Connecting to Device</p>
-                    <p class="event received">Wczytywanie automatyczne co 15s.</p>
-                    <p id="aboutBar" class="event received">TBD</p>
+                    <p hidden id="successBar" class="event received">Wczytywanie automatyczne co 15s</p>
+                    <p id="aboutBar" class="event received" style="display: none;">TBD</p>
                     <p></p>
                 </div>
             </div>
 
-            <div id="overallState" class="mx-auto">Ogólna jakość powietrza: </div>
+            <div id="aboutBar" class="alert alert-info" style="display: none;">TBD</div>
+
 
             <div id="canvasDiv">
                 <canvas id="myChart" class="chart mx-auto"></canvas>
             </div>
-            <div class="panel panel-default">
+
+            <div id="overallState" class="alert mx-auto">Ogólna jakość powietrza: </div>
+
             <table id="smog-table" class="table table-sm .table-responsive table-hover mx-auto">
                     <thead class="smog-head">
                         <tr>
@@ -97,11 +100,12 @@
                         </tr>
                     </thead>
                     <tbody class="smog-body">
-                        <tr class="smog-row">
+                        <tr class="smog-value-row">
+                        </tr>
+                        <tr class="smog-percent-row">
                         </tr>
                     </tbody>
                 </table>
-            </div>
             <div class="mx-auto"><p>Lokalizacja:</p><p id="geoState"></p></div>
             <div id="accelerometerDiv" style="display: none;" class="mx-auto"><p>Akcelerometr:</p><p id="accelerometerState"></p></div>
             <div id="gyroscopeDiv" style="display: none;" class="mx-auto"><p>Żyroskop:</p><p id="gyroscopeState"></p></div>

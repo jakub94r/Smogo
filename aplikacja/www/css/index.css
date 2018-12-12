@@ -44,7 +44,7 @@ body {
     height:100%;
     margin:0px;
     padding:0px;
-    text-transform:uppercase;
+    /*text-transform:uppercase;*/
     width:100%;
 }
 
@@ -220,6 +220,7 @@ a[data-toggle="collapse"] {
 }
 
 #smog-table {
+    text-align: center;
     width: 80%;
 }
 
@@ -229,28 +230,38 @@ a[data-toggle="collapse"] {
 
 }
 
-#smog-table tbody {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-#smog-table tbody tr:nth-of-type(odd) {
+#smog-table .smog-value-row {
     background-color: rgba(0, 0, 0, 0.01);
+
+}
+#smog-table .smog-percent-row {
+    background-color: white;
 }
 
-#smog-table tbody tr:hover {
+#smog-table tr:hover {
     background-color: rgba(0, 0, 0, 0.075);
 }
 
 #smog-table th,
 #smog-table td {
     border: 1px solid #dee2e6;
+    border-bottom-width: 0px;
   }
+  
+#smog-table td:first-child,
+#smog-table th:first-child {
+  border-left: 0;
+}
+#smog-table td:last-child,
+#smog-table th:last-child {
+  border-right: 0;
+}
 
 #overallState {
     font-size: 1.1em;
     text-align: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #overallStateParagraphValue {

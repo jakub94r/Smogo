@@ -42,14 +42,21 @@
 		'rgba(230, 230, 0, 0.8)', //medium
 		'rgba(255, 77, 77, 0.8)', //bad
 		'rgba(128, 0, 0, 0.8)'];	//verybad
-		
-		//krawedzie slupkow
+	//krawedzie slupkow
 		var borderdColorsPallet = [
 		'rgba(0, 148, 0, 1)',
 		'rgba(81, 255, 81, 1)',
 		'rgba(230, 230, 0, 1)',
 		'rgba(255, 77, 77, 1)',
 		'rgba(128, 0, 0, 1)'];
+
+		var colorTableEnum = {
+			verygood: "rgb(0, 102, 0)",
+			good: "rgb(0, 197, 5)",
+			medium: "rgb(176, 178, 0)",
+			bad: "rgb(255, 77, 77)",
+			verybad: "rgb(128, 0, 0)"
+		  };
 
 	$('#sidebarCollapse').on('click', function () {
 		$('#sidebar').toggleClass('active');
@@ -195,29 +202,51 @@
 				$("#overallState").empty();
 				$("#overallState").append("<p id='overallStateParagraph'>'Ogólna jakość powietrza: </p>");
 				$("#overallStateParagraph").append("<span id='overallStateParagraphValue'>Bardzo dobra</span>");
-				$("#overallStateParagraphValue").css("color", "rgb(0, 148, 0)");
+				$("#overallStateParagraphValue").css("color", colorTableEnum.verygood);
+				//var colorValue = colorTableEnum.verygood;
+
 				var worstStatus = 5;
 				chartStatuses.forEach(function (item, index)
 				{
 					switch (item) {
-						case "good": if (worstStatus > 4) { worstStatus = 4; $("#overallStateParagraphValue").text('Dobra'); $("#overallStateParagraphValue").css("color", "rgb(0, 197, 5)"); }
+						case "good": if (worstStatus > 4) { worstStatus = 4; $("#overallStateParagraphValue").text('Dobra'); 
+						//var colorValue = colorTableEnum.good;
+						$("#overallStateParagraphValue").css("color", colorTableEnum.good); 
+					}
 						break;
-						case "medium": if (worstStatus > 3) { worstStatus = 3; $("#overallStateParagraphValue").text('Średnia'); $("#overallStateParagraphValue").css("color", "rgb(202, 204, 0)"); }
+						case "medium": if (worstStatus > 3) { worstStatus = 3; $("#overallStateParagraphValue").text('Średnia'); 
+						//var colorValue = colorTableEnum.medium;
+						$("#overallStateParagraphValue").css("color", colorTableEnum.medium); 
+					}
 						break;
-						case "bad": if (worstStatus > 2) { worstStatus = 2; $("#overallStateParagraphValue").text('Zła'); $("#overallStateParagraphValue").css("color", "rgb(255, 77, 77)"); }
+						case "bad": if (worstStatus > 2) { worstStatus = 2; $("#overallStateParagraphValue").text('Zła'); 
+						//var colorValue = colorTableEnum.bad;
+						$("#overallStateParagraphValue").css("color", colorTableEnum.bad); 
+					}
 						break;
-						case "verybad": if (worstStatus > 1) { worstStatus = 1; $("#overallStateParagraphValue").text('Bardzo zła'); $("#overallStateParagraphValue").css("color", "rgb(128, 0, 0)"); }
+						case "verybad": if (worstStatus > 1) { worstStatus = 1; $("#overallStateParagraphValue").text('Bardzo zła'); 
+						//var colorValue = colorTableEnum.verybad;
+						$("#overallStateParagraphValue").css("color", colorTableEnum.verybad); 
+					}
 						break;
 					}
 				});
-				console.log(worstStatus);
+
 				var colorValue = $("#overallStateParagraphValue").css('color');
+				var colorValueBackground = colorValue.replace(')', ', 0.25)').replace('rgb', 'rgba');
 				$("#smog-table .smog-head").css("background-color", colorValue);
-				console.log(colorValue);
-				 $(".smog-row").empty();
+				//$("#overallState").css("background-color", colorValueBackground);
+				 $(".smog-value-row").empty();
+				 $(".smog-percent-row").empty();
 				 $.each(data.data, function(i, item) {
-					 $(".smog-row").append("<td>" + item.value + "</td>");
+					 var currentColorValue = colorTableEnum[item.status].replace(')', ', 0.25)').replace('rgb', 'rgba');
+					 $(".smog-value-row").append("<td>" + item.raw_value + "µg" + "</td>");
+					 $(".smog-percent-row").append("<td style='background-color: " + currentColorValue + "'>" + item.value + "%" + "</td>");
+					 //$(".smog-value-row").append("<td>" + item.value + "</td>");
 					});
+
+				//$("#smog-table").css("border", "1px solid " + colorValue);
+				$("#smog-table").find("td").css("border-color", colorValue);
 			 },
 			 statusCode: {
 				 404: function () {
@@ -302,11 +331,11 @@ var app = {
 			document.getElementById("gyroscopeState").innerHTML=gyroscopeValues;
 		}
 
-		sensors.addSensorListener("ACCELEROMETER", "GAME", accelerometerListener, function(error) {
+		sensors.addSensorListener("ACCELEROMETER", "NORMAL", accelerometerListener, function(error) {
 			if (error) accelerometerValues = "Could not listen to sensor";
 		});
 
-		sensors.addSensorListener("GYROSCOPE", "GAME", gyroscopeListener, function(error) {
+		sensors.addSensorListener("GYROSCOPE", "NORMAL", gyroscopeListener, function(error) {
 			if (error) gyroscopeValues = "Could not listen to sensor";
 		});
     },
