@@ -221,7 +221,9 @@ a[data-toggle="collapse"] {
 
 #smog-table {
     text-align: center;
-    width: 80%;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
 }
 
 #smog-table .smog-head {
@@ -269,6 +271,13 @@ a[data-toggle="collapse"] {
     font-size: 1.25em;
 }
 
+@media screen and (orientation:landscape) {
+    #smog-table {
+        display: table;
+        width: 80%;
+    }
+}
+
 @media (min-width: 768px) {
     #sidebar {
         position: relative;
@@ -290,6 +299,6 @@ a[data-toggle="collapse"] {
     }
 
     #smog-table {
-        width: 50%;
+        display: table;
     }
 }
