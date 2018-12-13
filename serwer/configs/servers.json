@@ -4,5 +4,11 @@
         "url": "https://airapi.airly.eu/v2/measurements/installation?installationId=1127",
         "apiKey": "nNNukEz9wwX5vYtiv0qBm25vrYahvl75",
         "parser": "AirlyParser"
+    },
+    {
+        "name": "Gios",
+        "url": "http://api.gios.gov.pl/pjp-api/rest/data/getData/",
+        "apiKey": "",
+        "parser": "GiosParser"
     }
 ]

@@ -4,6 +4,7 @@ import time
 import requests
 
 from core.AirData import AirData
+from datetime import timedelta
 
 
 class DataNormalizer(object):
@@ -16,7 +17,10 @@ class DataNormalizer(object):
     def factory(type):
         if type == "AirlyParser":
             return AirlyParser()
+        elif type == "GiosParser":
+            return GiosParser()
         raise Exception("Invalid factory parser type: {}".format(type))
+
     factory = staticmethod(factory)
 
     def __normalize(self, data):
@@ -43,11 +47,17 @@ class DataNormalizer(object):
     def sendRequest(self, crawler):
         return
 
-    def prepareData(self, response):
+    def prepareData(self, response, data):
         return
 
     def getParserType(self):
         return "Unknown/Invalid"
+
+    @staticmethod
+    def getLastFullHour():
+        last_hour_date_time = datetime.datetime.now() - timedelta(hours=1)
+        return last_hour_date_time.strftime('%Y-%m-%d %H:%M:%S')
+
 
 class AirlyParser(DataNormalizer):
     def sendRequest(self, crawler):
@@ -57,12 +67,12 @@ class AirlyParser(DataNormalizer):
         with open('parsedData.json', 'w') as outfile:
             json.dump(response.json(), outfile, indent=4, sort_keys=True)
 
-        self.prepareData(response)
+        data = AirData()
+        self.prepareData(response, data)
         crawler.saveRequestData(self.getData())
 
-    def prepareData(self, response):
+    def prepareData(self, response, data):
         json = response.json()
-        data = AirData()
         data.parserType = self.getParserType()
         data.requestTime = datetime.datetime.now()
         data.measureTime = json["current"]["fromDateTime"]
@@ -76,3 +86,33 @@ class AirlyParser(DataNormalizer):
         return "AirlyParser"
 
 
+class GiosParser(DataNormalizer):
+    def sendRequest(self, crawler):
+        sensors = [672, 658, 660, 665, 667, 670, 14395]
+
+        data = AirData()
+        data.parserType = self.getParserType()
+        data.requestTime = datetime.datetime.now()
+        data.measureTime = self.getLastFullHour()
+
+        for sensor in sensors:
+            response = requests.get(str.format("{0}{1}", self.getUrl(), sensor))
+            self.prepareData(response, data)
+
+        crawler.saveRequestData(self.getData())
+
+    def prepareData(self, response, data):
+        json = response.json()
+        name = json["key"]
+        values = json["values"]
+        finalValue = None
+        for value in values:
+            measuredValue = value["value"]
+            if measuredValue is not None:
+                finalValue = measuredValue
+
+        if finalValue is not None:
+            data.values[name] = finalValue
+
+    def getParserType(self):
+        return "GiosParser"
