@@ -1,0 +1,6 @@
+2018-11-23 15:24:59,546 - serwerLogger - DEBUG - Parsed: ServerInfo
+	name:Airly
+	url:https://airapi.airly.eu/v2/measurements/installation?installationId=1127
+	parser:AirlyParser
+
+2018-11-23 15:24:59,547 - serwerLogger - DEBUG - Crawler Started.
