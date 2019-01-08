@@ -45,6 +45,7 @@ $(document).ready(function () {
 	});
 
 	function showPollutionData() {
+		$("#dataLoader").toggle(true);
 		var chartCompleteData = {};
 		chartCompleteData.chartLabels = [];
 		chartCompleteData.chartData = [];

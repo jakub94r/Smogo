@@ -35,6 +35,10 @@ $("#source2").click(function () {
     getData = 'smog2.json'
 });
 
+$("#source3").click(function () {
+    getData = 'smog3.json'
+});
+
 //wczytaj dane
 function load(callback, chartCompleteData) {
     $.ajax({
@@ -42,7 +46,6 @@ function load(callback, chartCompleteData) {
         url: getData,
         dataType: 'json',
         success: function (data) {
-
             chartCompleteData.chartLabels = [];
             chartCompleteData.chartData = [];
             chartCompleteData.chartRawData = [];
@@ -57,6 +60,9 @@ function load(callback, chartCompleteData) {
                 chartCompleteData.chartStatuses.push(item.status);
                 chartCompleteData.chartRawData.push(item.raw_value);
             })
+            
+            $("#dataLoader").toggle(false);
+
             callback([chartCompleteData, data.data]);
             //pickColors(chartCompleteData)
             //drawChart(chartCompleteData)	//narysuj wykres
@@ -105,11 +111,10 @@ function pickColors(chartCompleteData) {
 
 //rysuj wykres
 function drawChart(chartCompleteData) {
-    $("#myChart").remove();
-    $("#chartContainer").append('<canvas id="myChart" class="chart mx-auto"></canvas>');
 
     //usun wszystkie poprzednie wykresy
     $("canvas#myChart").remove();
+    $("div#canvasDiv").empty();
     $("div#canvasDiv").append('<canvas id="myChart" class="chart mx-auto"></canvas>');
 
     //rysuj nowy wykres
@@ -150,7 +155,7 @@ function drawChart(chartCompleteData) {
             tooltips: {
                 callbacks: {
                     label: function (tooltipItem, data) {
-                        return chartRawData[tooltipItem.index] + ' µg/m3';
+                        return chartCompleteData.chartRawData[tooltipItem.index] + ' µg/m3';
                     }
                 }
             }
