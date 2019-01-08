@@ -7,21 +7,21 @@ var getData = dataAddress + '/getData'
 var backgroundColorsPallet = [
     'rgba(0, 148, 0, 0.8)',		//very good
     'rgba(81, 255, 81, 0.8)', //good
-    'rgba(230, 230, 0, 0.8)', //medium
+    'rgba(255, 200, 0, 0.8)', //medium
     'rgba(255, 77, 77, 0.8)', //bad
     'rgba(128, 0, 0, 0.8)'];	//verybad
 //krawedzie slupkow
 var borderdColorsPallet = [
     'rgba(0, 148, 0, 1)',
     'rgba(81, 255, 81, 1)',
-    'rgba(230, 230, 0, 1)',
+    'rgba(255, 200, 0, 1)',
     'rgba(255, 77, 77, 1)',
     'rgba(128, 0, 0, 1)'];
 
 var colorTableEnum = {
     verygood: "rgb(0, 102, 0)",
     good: "rgb(0, 197, 5)",
-    medium: "rgb(176, 178, 0)",
+    medium: "rgb(228, 177, 0)",
     bad: "rgb(255, 77, 77)",
     verybad: "rgb(128, 0, 0)"
 };
@@ -165,49 +165,56 @@ function drawChart(chartCompleteData) {
 
 function drawTable(pollutionData, chartStatuses) {
     $("#overallState").empty();
-    $("#overallState").append("<p id='overallStateParagraph'>'Ogólna jakość powietrza: </p>");
-    $("#overallStateParagraph").append("<span id='overallStateParagraphValue'>Bardzo dobra</span>");
-    $("#overallStateParagraphValue").css("color", colorTableEnum.verygood);
+    $("#overallState").append("<p id='overallStateParagraph'>Jakość powietrza: </p>");
+    $("#overallStateParagraph").append("<p id='overallStateParagraphValue'>Bardzo dobra</p>");
     //var colorValue = colorTableEnum.verygood;
 
     var worstStatus = 5;
+    var colorValue = colorTableEnum.verygood;
     chartStatuses.forEach(function (item, index) {
         switch (item) {
             case "good": if (worstStatus > 4) {
                 worstStatus = 4; $("#overallStateParagraphValue").text('Dobra');
-                //var colorValue = colorTableEnum.good;
-                $("#overallStateParagraphValue").css("color", colorTableEnum.good);
+                colorValue = colorTableEnum.good;
             }
                 break;
             case "medium": if (worstStatus > 3) {
                 worstStatus = 3; $("#overallStateParagraphValue").text('Średnia');
-                //var colorValue = colorTableEnum.medium;
-                $("#overallStateParagraphValue").css("color", colorTableEnum.medium);
+                colorValue = colorTableEnum.medium;
             }
                 break;
             case "bad": if (worstStatus > 2) {
                 worstStatus = 2; $("#overallStateParagraphValue").text('Zła');
-                //var colorValue = colorTableEnum.bad;
-                $("#overallStateParagraphValue").css("color", colorTableEnum.bad);
+                colorValue = colorTableEnum.bad;
             }
                 break;
             case "verybad": if (worstStatus > 1) {
                 worstStatus = 1; $("#overallStateParagraphValue").text('Bardzo zła');
-                //var colorValue = colorTableEnum.verybad;
-                $("#overallStateParagraphValue").css("color", colorTableEnum.verybad);
+                colorValue = colorTableEnum.verybad;
             }
                 break;
         }
     });
 
-    var colorValue = $("#overallStateParagraphValue").css('color');
     var colorValueBackground = colorValue.replace(')', ', 0.25)').replace('rgb', 'rgba');
+    var multiplier = 0.3;
+    $("#overallState").css('background-color', colorValue);
+
+    //$("#overallStateParagraphValue").css('color', colorValue);
+    $("#overallStateParagraphValue").css('color', 'white');
     $("#smog-table .smog-head").css("background-color", colorValue);
-    //$("#overallState").css("background-color", colorValueBackground);
     $(".smog-value-row").empty();
     $(".smog-percent-row").empty();
     $.each(pollutionData, function (i, item) {
-        var currentColorValue = colorTableEnum[item.status].replace(')', ', 0.25)').replace('rgb', 'rgba');
+        if (item.status=="verybad" || item.status=="verygood")
+        {
+            multiplier = 0.55;
+        }
+        else{
+            multiplier = 0.3;
+        }
+
+        var currentColorValue = colorTableEnum[item.status].replace(')', ', ' + multiplier + ')').replace('rgb', 'rgba');
         $(".smog-value-row").append("<td>" + item.raw_value + "µg" + "</td>");
         $(".smog-percent-row").append("<td style='background-color: " + currentColorValue + "'>" + item.value + "%" + "</td>");
     });

@@ -260,15 +260,22 @@ a[data-toggle="collapse"] {
 }
 
 #overallState {
-    font-size: 1.1em;
+    width: 70%;
+    background-color: #22262a;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.15em;
     text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    margin-top: 20px;
 }
 
 #overallStateParagraphValue {
+    text-transform: uppercase;
     font-weight: bold;
     font-size: 1.25em;
+    padding-bottom: 5px;    
 }
 
 .loader {
@@ -283,13 +290,19 @@ a[data-toggle="collapse"] {
     animation: spin 1.5s linear infinite;
   }
 
-@media screen and (orientation:landscape) {
+/*mobilny landscape*/
+@media (max-width: 760px) and (orientation:landscape) {
     #smog-table {
         display: table;
         width: 80%;
     }
+
+    #myChart {
+        max-width: 80%;
+    }
 }
 
+/*desktop*/
 @media (min-width: 768px) {
     #sidebar {
         position: relative;
@@ -312,5 +325,10 @@ a[data-toggle="collapse"] {
 
     #smog-table {
         display: table;
+        width: 80%;
+    }
+
+    #overallState {
+        width: 40%;
     }
 }
