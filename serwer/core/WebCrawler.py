@@ -1,17 +1,16 @@
 import json
-import os
 import threading
 
 from core.ServerInfo import ServerInfo
 from tools.Logger import Logger
-from core.DataNormalizer import DataNormalizer
+from core.Parsers.ParserFactory import ParserFactory
 
-class WebCrawler:
+class WebCrawler(object):
     def __init__(self):
         self._servers = []
         self._initLogger()
         self.threadStop = threading.Event()
-        self.crawlerThread = None # :type threading.Timer
+        self.crawlerThread = None  # :type threading.Timer
         self.getServersData = threading.Lock()
         self._gatheredData = []
         self._aliveCounter = 0
@@ -46,10 +45,11 @@ class WebCrawler:
                 self.getServersData.release()
 
     def _queryServer(self, serverInfo):
-        parser = DataNormalizer().factory(serverInfo.parser)
-        parser.setUrl(serverInfo.url)
-        parser.setApiKey(serverInfo.apiKey)
-        parser.sendRequest(crawler=self)
+        if isinstance(serverInfo.parser, str):
+            serverInfo.parser = ParserFactory.factory(serverInfo.parser)
+            serverInfo.parser.setUrl(serverInfo.url)
+            serverInfo.parser.setApiKey(serverInfo.apiKey)
+        serverInfo.parser.sendRequest(crawler=self)
 
     def getNearestStationList(self, params, serverName):
         for serverInfo in self._servers:
