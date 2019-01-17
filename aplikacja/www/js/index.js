@@ -19,6 +19,9 @@
 
 $(document).ready(function () {
 
+	var pollutionScreenOpen = true;
+	navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+
 	$('#sidebarCollapse').on('click', function () {
 		$('#sidebar').toggleClass('active');
 	});
@@ -36,12 +39,20 @@ $(document).ready(function () {
 
 	//lokalizacja i sensory
 	$("#geoButton").click(function () {
+		$("#geoDiv").toggle();
 		navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
 	});
 
 	$("#sensorButton").click(function () {
 		$("#accelerometerDiv").toggle();
 		$("#gyroscopeDiv").toggle();
+	});
+
+	$("#mapButton").click(function () {
+		initMap();
+		$("#mapScreen").toggle(true);
+		$("#pollutionScreen").toggle(false);
+		pollutionScreenOpen = false;
 	});
 
 	function showPollutionData() {
@@ -64,13 +75,18 @@ $(document).ready(function () {
 		load(myCallback, chartCompleteData);
 	}
 
+
+
 	//uruchom funkcje wczytania/rysowania raz, potem uruchamiaj co 15s.
 	window.setInterval(function () {
-		showPollutionData()
+		if (pollutionScreenOpen) {showPollutionData(); }
 	}, 15000);
 
 	//uruchom funkcje guzikiem
 	$('#load').click(function () {
+		$("#pollutionScreen").toggle(true);
+		$("#mapScreen").toggle(false);
+		pollutionScreenOpen = true;
 		showPollutionData()
 	});
 });
@@ -88,7 +104,8 @@ var app = {
 	// 'pause', 'resume', etc.
 	onDeviceReady: function () {
 		this.receivedEvent('deviceready');
-
+		
+		
 		//sensory
 		var accXYZ = ["", "", ""];
 		var gyroXYZ = ["", "", ""];

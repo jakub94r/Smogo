@@ -1,131 +1,155 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    
+
     <meta charset="utf-8">
 
     <!-- Tutaj zmienic 127.0.0.1:8080 na IP aktualnie przydzielone na serwerze, jesli jest on na innym urzadzeniu -->
-    <meta http-equiv="Content-Security-Policy Access-Control-Allow-Origin"   
-          content="default-src 'self' http://127.0.0.1:8080 data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta http-equiv="Content-Security-Policy Access-Control-Allow-Origin" content="default-src 'self' http://127.0.0.1:8080 data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
 
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport"
-          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link href="css/mdb.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>Smogodynka</title>
 </head>
+
 <body>
-<nav class="navbar sticky-top navbar-dark bg-black">
-    <button id="sidebarCollapse" class="navbar-toggler" type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand mx-auto" href="#">SMOGODYNKA</a>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    </div>
-</nav>
-<div class="wrapper">
-    <!-- Sidebar -->
-    <nav id="sidebar" class="navbar-dark bg-dark">
-        <div class="sidebar-components">
-            <p align=center class="sidebar-header py-4 mx-auto sidebar-menu-font">Smogodynka menu</p>
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Wybierz źródło</a>
-                    <ul class="collapse" id="homeSubmenu">
-                        <li>
-                            <button id="source1" class="btn-sidebar">Źródło 1</button>
-                        </li>
-                        <li>
-                            <button id="source2" class="btn-sidebar">Źródło 2</button>
-                        </li>
-                        <li>
-                            <button id="source3" class="btn-sidebar">Źródło 3</button>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <button id="load" class="btn-sidebar">Wymuś wczytanie</button>
-                </li>
-                <li>
-                    <a href="#sensorSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Dane położenia</a>
-                    <ul class="collapse" id="sensorSubmenu">
-                        <li>
-                            <button id="geoButton" class="btn-sidebar">Lokalizacja</button>
-                        </li>
-                        <li>
-                            <button id="sensorButton" class="btn-sidebar">Sensory</button>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <button id="about" class="btn-sidebar">O aplikacji</button>
-                </li>
-            </ul>
+    <nav class="navbar sticky-top navbar-dark bg-black">
+        <button id="sidebarCollapse" class="navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand mx-auto" href="#">SMOGODYNKA</a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         </div>
     </nav>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="navbar-dark bg-dark">
+            <div class="sidebar-components">
+                <p align=center class="sidebar-header py-4 mx-auto sidebar-menu-font">Smogodynka menu</p>
+                <ul class="list-unstyled components">
+                    <li>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Wybierz
+                            źródło</a>
+                        <ul class="collapse" id="homeSubmenu">
+                            <li>
+                                <button id="source1" class="btn-sidebar">Źródło 1</button>
+                            </li>
+                            <li>
+                                <button id="source2" class="btn-sidebar">Źródło 2</button>
+                            </li>
+                            <li>
+                                <button id="source3" class="btn-sidebar">Źródło 3</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <button id="load" class="btn-sidebar">Wymuś wczytanie</button>
+                    </li>
+                    <li>
+                        <button id="mapButton" class="btn-sidebar">Pokaż mapę</button>
+                    </li>
+                    <li>
+                        <a href="#sensorSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Dane
+                            położenia</a>
+                        <ul class="collapse" id="sensorSubmenu">
+                            <li>
+                                <button id="geoButton" class="btn-sidebar">Lokalizacja</button>
+                            </li>
+                            <li>
+                                <button id="sensorButton" class="btn-sidebar">Sensory</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <button id="about" class="btn-sidebar">O aplikacji</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-    <!-- Zawartosc strony ktora reaguje z sidebarem (przesun, wyciemnij itp.) -->
-    <div id="content" class="container-fluid">
-        <div class="col-12 mx-auto">
-            <div id="deviceready">
-                <div class="blink">
-                    <p></p>
-                    <p class="event listening">Connecting to Device</p>
-                    <p hidden id="successBar" class="event received">Wczytywanie automatyczne co 15s</p>
-                    <p id="aboutBar" class="event received" style="display: none;">TBD</p>
-                    <p></p>
+        <!-- Zawartosc strony ktora reaguje z sidebarem (przesun, wyciemnij itp.) -->
+        <div id="content" class="container-fluid">
+            <div class="col-12 mx-auto">
+                <div id="deviceready">
+                    <div class="blink">
+                        <p></p>
+                        <p class="event listening">Connecting to Device</p>
+                        <p hidden id="successBar" class="event received">Wczytywanie automatyczne co 15s</p>
+                        <p id="aboutBar" class="event received" style="display: none;">TBD</p>
+                        <p></p>
+                    </div>
+                </div>
+
+                <div id="aboutBar" class="alert alert-info" style="display: none;">TBD</div>
+
+                <div id="pollutionScreen">
+                    <div id="overallState" class="mx-auto">Jakość powietrza:
+                        <p id='overallStateParagraphValue'>Pobieram dane</p>
+                    </div>
+
+                    <div id="canvasDiv">
+                        <canvas id="myChart" class="chart mx-auto"></canvas>
+                    </div>
+
+                    <table id="smog-table" class="table-sm .table-responsive table-hover mx-auto">
+                        <thead class="smog-head">
+                            <tr>
+                                <th>PM10</th>
+                                <th>PM2.5</th>
+                                <th>SO2</th>
+                                <th> O3 </th>
+                                <th>NO2</th>
+                                <th> CO </th>
+                                <th>C6H6</th>
+                            </tr>
+                        </thead>
+                        <tbody class="smog-body">
+                            <tr class="smog-value-row">
+                            </tr>
+                            <tr class="smog-percent-row">
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div id="mapScreen" style="display: none;">
+                    <h4>Powietrze w Twojej okolicy</h3>
+                    <div id="map"></div>
+                </div>
+                <div id="dataLoader" class="loader" style="display: none;"></div>
+
+                <div id="geoDiv" class="mx-auto" style="display: none;">
+                    <p>Lokalizacja:</p>
+                    <p id="geoState"></p>
+                </div>
+                <div id="accelerometerDiv" style="display: none;" class="mx-auto">
+                    <p>Akcelerometr:</p>
+                    <p id="accelerometerState"></p>
+                </div>
+                <div id="gyroscopeDiv" style="display: none;" class="mx-auto">
+                    <p>Żyroskop:</p>
+                    <p id="gyroscopeState"></p>
                 </div>
             </div>
-
-            <div id="aboutBar" class="alert alert-info" style="display: none;">TBD</div>
-
-            <div id="overallState" class="mx-auto">Jakość powietrza: 
-                <p id='overallStateParagraphValue'>Pobieram dane</p>
-            </div>
-
-            <div id="canvasDiv">
-                <canvas id="myChart" class="chart mx-auto"></canvas>
-            </div>
-
-            <table id="smog-table" class="table-sm .table-responsive table-hover mx-auto">
-                    <thead class="smog-head">
-                        <tr>
-                            <th>PM10</th>
-                            <th>PM2.5</th>
-                            <th>SO2</th>
-                            <th> O3 </th>
-                            <th>NO2</th>
-                            <th> CO </th>
-                            <th>C6H6</th>
-                        </tr>
-                    </thead>
-                    <tbody class="smog-body">
-                        <tr class="smog-value-row">
-                        </tr>
-                        <tr class="smog-percent-row">
-                        </tr>
-                    </tbody>
-                </table>
-
-            <div id="dataLoader" class="loader" style="display: none;"></div>
-
-            <div class="mx-auto"><p>Lokalizacja:</p><p id="geoState"></p></div>            
-            <div id="accelerometerDiv" style="display: none;" class="mx-auto"><p>Akcelerometr:</p><p id="accelerometerState"></p></div>
-            <div id="gyroscopeDiv" style="display: none;" class="mx-auto"><p>Żyroskop:</p><p id="gyroscopeState"></p></div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript" src="cordova.js"></script>
-<script type="text/javascript" src="js/localization.js"></script>
-<script type="text/javascript" src="js/smogoData.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/mdb.min.js"></script>
-<script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/localization.js"></script>
+    <script type="text/javascript" src="js/smogoData.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj_KQANXfEefOBpsaCUeyGQkN3lwYf9os&callback=initMap"
+        async defer></script>
 </body>
+
 </html>
