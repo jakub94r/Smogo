@@ -51,6 +51,16 @@ class WebCrawler:
         parser.setApiKey(serverInfo.apiKey)
         parser.sendRequest(crawler=self)
 
+    def getNearestStationList(self, params, serverName):
+        for serverInfo in self._servers:
+            if serverInfo.name == serverName:
+                parser = DataNormalizer.factory(serverInfo.parser)
+                parser.setApiKey(serverInfo.apiKey)
+                parser.setNearbyUrl(serverInfo.nearbyUrl)
+                return parser.sendNearbyRequest(params)
+
+        return None
+
     def saveRequestData(self, data):
         self._gatheredData.append(data)
 
@@ -66,6 +76,7 @@ class WebCrawler:
                 info = ServerInfo()
                 info.name = server["name"]
                 info.url = server["url"]
+                info.nearbyUrl = server["nearbyUrl"]
                 info.apiKey = server["apiKey"]
                 info.parser = server["parser"]
                 self.logger.debug("Parsed: {}".format(str(info)))

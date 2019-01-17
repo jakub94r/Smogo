@@ -1,3 +1,6 @@
+import json
+
+import requests
 from aiohttp import web
 
 from core.DataGenerator import DataGenerator
@@ -11,11 +14,39 @@ webCrawler = WebCrawler()
 webCrawler.loadConfigs("configs\servers.json")
 generator = DataGenerator()
 
+def getStationListStringFromParams(data):
+    params = data.split('&')
+    lat = None
+    lng = None
+    maxDistanceKM = 5
+    maxResults = -1
+
+
 async def handle(request):
     return web.json_response(text=generator.generateJson())
 
 async def defaultHandle(request):
     return web.Response(text="404: Not Found")
+
+async def handleGetStationList(request):
+    data = request.match_info.get('data')
+    if not data:
+        return web.Response(text="ERROR: Invalid parameters.")
+
+    serverName = None
+    params = data.split('&')
+    for param in params:
+        if "server" in param:
+            serverName = param.split('=')[1]
+
+    if not serverName:
+        serverName = "Airly"
+
+    response = webCrawler.getNearestStationList(data, serverName)
+    if not response:
+        return web.Response(text="ERROR: Invalid parameters or server not found.")
+
+    return web.json_response(response)
 
 async def on_shutdown(app):
     webCrawler.stop()
@@ -24,7 +55,8 @@ app = web.Application()
 app.add_routes(
     [
         web.get('/', defaultHandle),
-        web.get('/getData', handle)
+        web.get('/getData', handle),
+        web.get('/getStationList/{data}', handleGetStationList)
     ]
 )
 app.on_shutdown.append(on_shutdown(app))

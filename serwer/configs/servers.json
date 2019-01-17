@@ -2,12 +2,14 @@
     {
         "name": "Airly",
         "url": "https://airapi.airly.eu/v2/measurements/installation?installationId=1127",
+        "nearbyUrl": "https://airapi.airly.eu/v2/installations/nearest?",
         "apiKey": "nNNukEz9wwX5vYtiv0qBm25vrYahvl75",
         "parser": "AirlyParser"
     },
     {
         "name": "Gios",
         "url": "http://api.gios.gov.pl/pjp-api/rest/data/getData/",
+        "nearbyUrl": "",
         "apiKey": "",
         "parser": "GiosParser"
     }

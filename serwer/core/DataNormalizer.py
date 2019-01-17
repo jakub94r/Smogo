@@ -10,6 +10,7 @@ from datetime import timedelta
 class DataNormalizer(object):
     def __init__(self):
         self.__url = None
+        self.__nearbyUrl = None
         self.__data = None
         self.__apiKey = None
         self.__lastRefresh = None
@@ -32,8 +33,14 @@ class DataNormalizer(object):
     def setUrl(self, url):
         self.__url = url
 
+    def setNearbyUrl(self, url):
+        self.__nearbyUrl = url
+
     def getUrl(self):
         return self.__url
+
+    def getNearbyUrl(self):
+        return self.__nearbyUrl
 
     def setApiKey(self, apiKey):
         self.__apiKey = apiKey
@@ -49,6 +56,9 @@ class DataNormalizer(object):
 
     def prepareData(self, response, data):
         return
+
+    def sendNearbyRequest(self, params):
+        return None
 
     def getParserType(self):
         return "Unknown/Invalid"
@@ -81,6 +91,13 @@ class AirlyParser(DataNormalizer):
             name = value["name"]
             val = value["value"]
             data.values[name] = val
+
+    def sendNearbyRequest(self, params):
+        headers = {'Accept': 'application/json', 'apikey': self.getApiKey()}
+        url = "{0}{1}".format(self.getNearbyUrl(), params)
+        response = requests.get(url, headers=headers)
+        return response.json()
+
 
     def getParserType(self):
         return "AirlyParser"
