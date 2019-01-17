@@ -1,6 +1,13 @@
-2018-11-23 15:24:59,546 - serwerLogger - DEBUG - Parsed: ServerInfo
+2019-01-17 23:11:27,341 - serwerLogger - DEBUG - [core\WebCrawler.py, line: 83]	Parsed: ServerInfo
 	name:Airly
 	url:https://airapi.airly.eu/v2/measurements/installation?installationId=1127
+	nearbyUrl:https://airapi.airly.eu/v2/installations/nearest?
 	parser:AirlyParser
 
-2018-11-23 15:24:59,547 - serwerLogger - DEBUG - Crawler Started.
+2019-01-17 23:11:27,342 - serwerLogger - DEBUG - [core\WebCrawler.py, line: 83]	Parsed: ServerInfo
+	name:Gios
+	url:http://api.gios.gov.pl/pjp-api/rest/data/getData/
+	nearbyUrl:
+	parser:GiosParser
+
+2019-01-17 23:11:27,345 - serwerLogger - DEBUG - [core\WebCrawler.py, line: 25]	Crawler Started.

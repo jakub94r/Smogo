@@ -1,5 +1,5 @@
 import logging
-
+from inspect import currentframe, getouterframes
 import os
 
 
@@ -8,6 +8,7 @@ class Logger(object):
         self.logger = logging.getLogger('serwerLogger')
         self.logger.setLevel(logging.DEBUG)
         self.path = None
+        self._useDebug = True
 
     def setLoggingPath(self, path):
         self.logger.handlers.clear()
@@ -30,13 +31,30 @@ class Logger(object):
         self.logger.addHandler(fh)
 
     def info(self, message):
+        if self._useDebug:
+            message = self.addDebugInfo(message)
         self.logger.info(message)
 
     def debug(self, message):
+        if self._useDebug:
+            message = self.addDebugInfo(message)
         self.logger.debug(message)
 
+    def addDebugInfo(self, message):
+        curframe = currentframe()
+        calframe = getouterframes(curframe, 4)
+        return "[{}, line: {}]\t{}".format(
+            "\\".join(calframe[2][1].split("\\")[-2:]),
+            calframe[2][2],
+            message
+        )
+
     def error(self, message):
+        if self._useDebug:
+            message = self.addDebugInfo(message)
         self.logger.error(message)
 
     def warning(self, message):
+        if self._useDebug:
+            message = self.addDebugInfo(message)
         self.logger.warning(message)

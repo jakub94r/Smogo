@@ -71,6 +71,7 @@ class DataNormalizer(object):
 
 class AirlyParser(DataNormalizer):
     def sendRequest(self, crawler):
+        return
         headers = {'Accept': 'application/json', 'apikey': self.getApiKey()}
         response = requests.get(self.getUrl(), headers=headers)
 

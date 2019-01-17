@@ -1,7 +1,9 @@
 //lokalizacja
+var dataAddress = 'http://127.0.0.1:8080'
+var postData = dataAddress + '/postData'
 var localizationString = "";
-var Latitude;
-var Longitude;
+var Latitude = 0;
+var Longitude = 0;
 
 var onSuccess = function (position) {
     document.getElementById("geoState").innerHTML = "loading";
@@ -14,8 +16,8 @@ var onSuccess = function (position) {
         'Heading: ' + position.coords.heading + "</br>" +
         'Speed: ' + position.coords.speed + "</br>" +
         'Timestamp: ' + position.timestamp + "</br>";
-        Latitude = position.coords.latitude;
-        Longitude = position.coords.longitude;
+        Latitude = 51.1097163;
+        Longitude = 17.0614762;
 
     document.getElementById("geoState").innerHTML = localizationString;
 };
@@ -28,6 +30,26 @@ function onError(error) {
     document.getElementById("geoState").innerHTML = localizationString;
 }
 
+//lat=50.062006&lng=19.940984&maxDistanceKM=5&maxResults=3
+function sendLocationToServer() {
+    var maxDistance = 10;
+    var maxResults = maxDistance * 5;
+    $.ajax({
+        url: postData, //'http://127.0.0.1:8080/postData'
+        type: 'POST',
+        crossDomain: true,
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify( { "lat":Latitude, "&lng":Longitude, "&maxDistanceKM":maxDistance, "&maxResults":maxResults } ),
+        success: function(data){
+            console.log(data);
+        },
+        error: function(a, b, c){
+            console.log( JSON.stringify([postData, a, b, c]));
+        }
+    });
+}
+
 function initMap() {
 
     if (!((Latitude) && (Longitude)))
@@ -37,7 +59,7 @@ function initMap() {
     }
     var location = {lat: Latitude, lng: Longitude};
     var map = new google.maps.Map(
-        document.getElementById('map'), {zoom: 12, center: location});
+        document.getElementById('map'), {zoom: 4, center: location});
     var marker = new google.maps.Marker({position: location, map: map});
   }
 

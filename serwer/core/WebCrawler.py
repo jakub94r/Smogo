@@ -45,6 +45,7 @@ class WebCrawler(object):
                 self.getServersData.release()
 
     def _queryServer(self, serverInfo):
+        return None
         if isinstance(serverInfo.parser, str):
             serverInfo.parser = ParserFactory.factory(serverInfo.parser)
             serverInfo.parser.setUrl(serverInfo.url)

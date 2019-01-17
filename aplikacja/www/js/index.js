@@ -22,6 +22,9 @@ $(document).ready(function () {
 	var pollutionScreenOpen = true;
 	navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
 
+	sendLocationToServer();
+
+	
 	$('#sidebarCollapse').on('click', function () {
 		$('#sidebar').toggleClass('active');
 	});
@@ -53,6 +56,7 @@ $(document).ready(function () {
 		$("#mapScreen").toggle(true);
 		$("#pollutionScreen").toggle(false);
 		pollutionScreenOpen = false;
+		sendLocationToServer();
 	});
 
 	function showPollutionData() {
@@ -74,8 +78,6 @@ $(document).ready(function () {
 		}
 		load(myCallback, chartCompleteData);
 	}
-
-
 
 	//uruchom funkcje wczytania/rysowania raz, potem uruchamiaj co 15s.
 	window.setInterval(function () {

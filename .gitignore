@@ -3,3 +3,8 @@
 */platforms/*
 !*/platforms/*.gradle
 *.pyc
+*serwer/*.html
+*serwer/parsedData.json
+*serwer/logs*
+*serwer/*.xml
+aplikacja/node_modules/*
