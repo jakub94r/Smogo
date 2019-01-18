@@ -44,24 +44,22 @@ async def handshake(request):
     jsonString = json.dumps(data)
     return web.json_response(text=jsonString, headers=headers)
 
+async def getPostData(request):
+    result = {}
+    data = await request.text()
+    data = data.split("&")
+    for arg in data:
+        attribute = arg.split("=")
+        result[attribute[0]] = attribute[1]
+
+    return result
 
 async def handlePostData(request):
-    data = [{"id": 204, "location": {"latitude": 50.062006, "longitude": 19.940984},
-             "address": {"country": "Poland", "city": "Krak\u00f3w", "street": "Miko\u0142ajska", "number": "4B",
-                         "displayAddress1": "Krak\u00f3w", "displayAddress2": "Miko\u0142ajska"}, "elevation": 220.38,
-             "airly": True,
-             "sponsor": {"id": 7, "name": "Krak\u00f3wOddycha", "description": "Airly Sensor is part of action",
-                         "logo": "https://cdn.airly.eu/logo/KrakowOddycha.jpg", "link": None}},
-            {"id": 58, "location": {"latitude": 50.057447, "longitude": 19.946008},
-             "address": {"country": "Poland", "city": "Krak\u00f3w", "street": "Dietla", "number": "84",
-                         "displayAddress1": "Krak\u00f3w", "displayAddress2": "Dietla"}, "elevation": 208.99,
-             "airly": False, "sponsor": {"id": 11, "name": "State Environmental Monitoring Station", "description": "",
-                                         "logo": "https://cdn.airly.eu/logo/GIOs.jpg", "link": None}},
-            {"id": 1096, "location": {"latitude": 50.06448, "longitude": 19.931761},
-             "address": {"country": "Poland", "city": "Krak\u00f3w", "street": "Karmelicka", "number": "16",
-                         "displayAddress1": "Krak\u00f3w", "displayAddress2": "Karmelicka 14"}, "elevation": 212.22,
-             "airly": True, "sponsor": {"id": 49, "name": "eurobank", "description": "Airly Sensor's sponsor",
-                                        "logo": "https://cdn.airly.eu/logo/eurobank.jpg", "link": None}}]
+    if request.method == "OPTIONS":
+        return web.json_response(text="[]", headers=headers)
+    params = await request.text()
+    data = webCrawler.getNearestStationList(params, "Airly")
+
     jsonString = json.dumps(data)
 
     response = web.json_response(text=jsonString, headers=headers)

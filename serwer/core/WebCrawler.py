@@ -1,6 +1,7 @@
 import json
 import threading
 
+from core.DataNormalizer import DataNormalizer
 from core.ServerInfo import ServerInfo
 from tools.Logger import Logger
 from core.Parsers.ParserFactory import ParserFactory
@@ -55,7 +56,7 @@ class WebCrawler(object):
     def getNearestStationList(self, params, serverName):
         for serverInfo in self._servers:
             if serverInfo.name == serverName:
-                parser = DataNormalizer.factory(serverInfo.parser)
+                parser = DataNormalizer().factory(serverInfo.parser)
                 parser.setApiKey(serverInfo.apiKey)
                 parser.setNearbyUrl(serverInfo.nearbyUrl)
                 return parser.sendNearbyRequest(params)
