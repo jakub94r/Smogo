@@ -20,11 +20,7 @@
 $(document).ready(function () {
 
 	var pollutionScreenOpen = true;
-	navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
 
-	sendLocationToServer();
-
-	
 	$('#sidebarCollapse').on('click', function () {
 		$('#sidebar').toggleClass('active');
 	});
@@ -52,11 +48,13 @@ $(document).ready(function () {
 	});
 
 	$("#mapButton").click(function () {
-		initMap();
+		$("#dataLoader").toggle(true);
+		sendLocationToServer();
 		$("#mapScreen").toggle(true);
 		$("#pollutionScreen").toggle(false);
 		pollutionScreenOpen = false;
-		sendLocationToServer();
+		window.setTimeout(addStationsToMap, 1000);
+		$("#dataLoader").toggle(false);
 	});
 
 	function showPollutionData() {
@@ -81,7 +79,8 @@ $(document).ready(function () {
 
 	//uruchom funkcje wczytania/rysowania raz, potem uruchamiaj co 15s.
 	window.setInterval(function () {
-		if (pollutionScreenOpen) {showPollutionData(); }
+		if (pollutionScreenOpen) { showPollutionData(); }
+		sendLocationToServer();
 	}, 15000);
 
 	//uruchom funkcje guzikiem
@@ -89,7 +88,7 @@ $(document).ready(function () {
 		$("#pollutionScreen").toggle(true);
 		$("#mapScreen").toggle(false);
 		pollutionScreenOpen = true;
-		showPollutionData()
+		showPollutionData();
 	});
 });
 
@@ -106,8 +105,9 @@ var app = {
 	// 'pause', 'resume', etc.
 	onDeviceReady: function () {
 		this.receivedEvent('deviceready');
-		
-		
+		navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+		sendLocationToServer();
+
 		//sensory
 		var accXYZ = ["", "", ""];
 		var gyroXYZ = ["", "", ""];

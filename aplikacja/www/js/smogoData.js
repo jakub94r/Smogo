@@ -22,7 +22,7 @@ var colorTableEnum = {
     verygood: "rgb(0, 102, 0)",
     good: "rgb(0, 197, 5)",
     medium: "rgb(228, 177, 0)",
-    bad: "rgb(255, 77, 77)",
+    bad: "rgb(255, 127, 77)",
     verybad: "rgb(128, 0, 0)"
 };
 
@@ -60,7 +60,7 @@ function load(callback, chartCompleteData) {
                 chartCompleteData.chartStatuses.push(item.status);
                 chartCompleteData.chartRawData.push(item.raw_value);
             })
-            
+
             $("#dataLoader").toggle(false);
 
             callback([chartCompleteData, data.data]);
@@ -206,11 +206,10 @@ function drawTable(pollutionData, chartStatuses) {
     $(".smog-value-row").empty();
     $(".smog-percent-row").empty();
     $.each(pollutionData, function (i, item) {
-        if (item.status=="verybad" || item.status=="verygood")
-        {
+        if (item.status == "verybad" || item.status == "verygood") {
             multiplier = 0.55;
         }
-        else{
+        else {
             multiplier = 0.3;
         }
 
