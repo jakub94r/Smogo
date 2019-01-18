@@ -19,6 +19,7 @@ headers = {
 
 webCrawler = WebCrawler()
 webCrawler.loadConfigs("configs\servers.json")
+webCrawler.loadAirlyInstallations("configs\AirlyInstallations.txt")
 generator = DataGenerator()
 
 def getStationListStringFromParams(data):

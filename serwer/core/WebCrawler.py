@@ -9,6 +9,7 @@ from core.Parsers.ParserFactory import ParserFactory
 class WebCrawler(object):
     def __init__(self):
         self._servers = []
+        self._airlyInstallations = []
         self._initLogger()
         self.threadStop = threading.Event()
         self.crawlerThread = None  # :type threading.Timer
@@ -87,5 +88,13 @@ class WebCrawler(object):
             self.logger.error(e)
         finally:
             self.getServersData.release()
+
+    def loadAirlyInstallations(self, filepath):
+        try:
+            with open(filepath) as dataFile:
+                self._airlyInstallations = dataFile.read().split(',')
+            print(self._airlyInstallations)
+        except:
+            raise Exception("Couldn't load Airly Installations from path: {}".format(filepath))
 
 
