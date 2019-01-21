@@ -6,7 +6,6 @@ import requests
 from core.AirData import AirData
 from datetime import timedelta
 
-
 class DataNormalizer(object):
     def __init__(self):
         self.__url = None
@@ -54,6 +53,9 @@ class DataNormalizer(object):
     def sendRequest(self, crawler):
         return
 
+    def sendInstallationRequest(self, crawler, installationId):
+        return
+
     def prepareData(self, response, data):
         return
 
@@ -71,9 +73,9 @@ class DataNormalizer(object):
 
 class AirlyParser(DataNormalizer):
     def sendRequest(self, crawler):
-        return
+        url = "{0}{1}".format(self.getUrl(), 1127)
         headers = {'Accept': 'application/json', 'apikey': self.getApiKey()}
-        response = requests.get(self.getUrl(), headers=headers)
+        response = requests.get(url, headers=headers)
 
         with open('parsedData.json', 'w') as outfile:
             json.dump(response.json(), outfile, indent=4, sort_keys=True)
@@ -81,6 +83,15 @@ class AirlyParser(DataNormalizer):
         data = AirData()
         self.prepareData(response, data)
         crawler.saveRequestData(self.getData())
+
+    def sendInstallationRequest(self, crawler, installationId):
+        url = "{0}{1}".format(self.getUrl(), installationId)
+        headers = {'Accept': 'application/json', 'apikey': self.getApiKey()}
+        response = requests.get(url, headers=headers)
+
+        data = {'installationId': installationId, 'measurements': response.json()}
+
+        return data
 
     def prepareData(self, response, data):
         json = response.json()
@@ -94,7 +105,7 @@ class AirlyParser(DataNormalizer):
             data.values[name] = val
 
     def sendNearbyRequest(self, params):
-        headers = {'Accept': 'application/json', 'apikey': self.getApiKey()}
+        headers = {'Accept': 'application/json', 'apikey': self.getApiKey(), 'charset': 'utf-8'}
         url = "{0}{1}".format(self.getNearbyUrl(), params)
         response = requests.get(url, headers=headers)
         return response.json()

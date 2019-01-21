@@ -64,6 +64,16 @@ class WebCrawler(object):
 
         return None
 
+    def sendInstallationRequest(self, installationId):
+        for serverInfo in self._servers:
+            if serverInfo.name == "Airly":
+                parser = DataNormalizer().factory(serverInfo.parser)
+                parser.setApiKey(serverInfo.apiKey)
+                parser.setUrl(serverInfo.url)
+                return parser.sendInstallationRequest(crawler=self, installationId=installationId)
+
+        return None
+
     def saveRequestData(self, data):
         self._gatheredData.append(data)
 
