@@ -93,7 +93,6 @@ class WebCrawler(object):
         try:
             with open(filepath) as dataFile:
                 self._airlyInstallations = dataFile.read().split(',')
-            print(self._airlyInstallations)
         except:
             raise Exception("Couldn't load Airly Installations from path: {}".format(filepath))
 
