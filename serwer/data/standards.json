@@ -1,0 +1,184 @@
+{
+  "PM10": [
+    {
+      "limit": 21,
+      "status": "Bardzo dobry"
+    },
+    {
+      "limit": 61,
+      "status": "Dobry"
+    },
+    {
+      "limit": 101,
+      "status": "Umiarkowany"
+    },
+    {
+      "limit": 141,
+      "status": "Dostateczny"
+    },
+    {
+      "limit": 201,
+      "status": "Zły"
+    },
+    {
+      "limit": -1,
+      "status": "Bardzo zły"
+    }
+  ],
+  "PM25": [
+    {
+      "limit": 13,
+      "status": "Bardzo dobry"
+    },
+    {
+      "limit": 37,
+      "status": "Dobry"
+    },
+    {
+      "limit": 61,
+      "status": "Umiarkowany"
+    },
+    {
+      "limit": 85,
+      "status": "Dostateczny"
+    },
+    {
+      "limit": 121,
+      "status": "Zły"
+    },
+    {
+      "limit": -1,
+      "status": "Bardzo zły"
+    }
+  ],
+  "O3": [
+    {
+      "limit": 71,
+      "status": "Bardzo dobry"
+    },
+    {
+      "limit": 121,
+      "status": "Dobry"
+    },
+    {
+      "limit": 151,
+      "status": "Umiarkowany"
+    },
+    {
+      "limit": 181,
+      "status": "Dostateczny"
+    },
+    {
+      "limit": 241,
+      "status": "Zły"
+    },
+    {
+      "limit": -1,
+      "status": "Bardzo zły"
+    }
+  ],
+  "NO2": [
+    {
+      "limit": 41,
+      "status": "Bardzo dobry"
+    },
+    {
+      "limit": 101,
+      "status": "Dobry"
+    },
+    {
+      "limit": 151,
+      "status": "Umiarkowany"
+    },
+    {
+      "limit": 201,
+      "status": "Dostateczny"
+    },
+    {
+      "limit": 401,
+      "status": "Zły"
+    },
+    {
+      "limit": -1,
+      "status": "Bardzo zły"
+    }
+  ],
+  "SO2": [
+    {
+      "limit": 51,
+      "status": "Bardzo dobry"
+    },
+    {
+      "limit": 101,
+      "status": "Dobry"
+    },
+    {
+      "limit": 201,
+      "status": "Umiarkowany"
+    },
+    {
+      "limit": 351,
+      "status": "Dostateczny"
+    },
+    {
+      "limit": 501,
+      "status": "Zły"
+    },
+    {
+      "limit": -1,
+      "status": "Bardzo zły"
+    }
+  ],
+  "C6H6": [
+    {
+      "limit": 6,
+      "status": "Bardzo dobry"
+    },
+    {
+      "limit": 11,
+      "status": "Dobry"
+    },
+    {
+      "limit": 16,
+      "status": "Umiarkowany"
+    },
+    {
+      "limit": 21,
+      "status": "Dostateczny"
+    },
+    {
+      "limit": 51,
+      "status": "Zły"
+    },
+    {
+      "limit": -1,
+      "status": "Bardzo zły"
+    }
+  ],
+  "CO": [
+    {
+      "limit": 3,
+      "status": "Bardzo dobry"
+    },
+    {
+      "limit": 7,
+      "status": "Dobry"
+    },
+    {
+      "limit": 11,
+      "status": "Umiarkowany"
+    },
+    {
+      "limit": 15,
+      "status": "Dostateczny"
+    },
+    {
+      "limit": 21,
+      "status": "Zły"
+    },
+    {
+      "limit": -1,
+      "status": "Bardzo zły"
+    }
+  ]
+}
