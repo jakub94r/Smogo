@@ -221,8 +221,9 @@ a[data-toggle="collapse"] {
 
 #smog-table {
     text-align: center;
+    margin-left:auto;
+    margin-right:auto;
     width: 100%;
-    display: block;
     overflow-x: auto;
 }
 

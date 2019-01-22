@@ -62,8 +62,12 @@ class Server(object):
             data["error"] = "Missing parameters!"
             return self._generateJson(data)
 
-        measure = self._stationManager.getMeasureForLocation(latitude, longitude)
+        station = self._stationManager.getMeasureForLocation(latitude, longitude)
 
+        if station is None:
+            return self._generateJson([])
+
+        measure = self._stationManager.getMeasurementForStationId(station["id"])
         return self._generateJson(measure)
 
     def getNearStationsHandler(self, request):
@@ -78,6 +82,9 @@ class Server(object):
             return self._generateJson(data)
 
         stations = self._stationManager.getNearStations(latitude, longitude, radius, limit)
+
+        for index, station in enumerate(stations):
+            stations[index]["measurement"] = self._stationManager.getMeasurementForStationId(station["id"])
 
         return self._generateJson(stations)
 

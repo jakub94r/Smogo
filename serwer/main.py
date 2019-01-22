@@ -3,7 +3,7 @@ from tools.Logger import Logger
 
 logger = Logger()
 logger.setLoggingPath("mainServer.log")
-hostAddr = "192.168.43.2"
+hostAddr = "192.168.43.147"
 server = Server(hostAddr=hostAddr, port=8080, logger=logger)
 
 server.start()

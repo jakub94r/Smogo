@@ -34,25 +34,30 @@
                 <p align=center class="sidebar-header py-4 mx-auto sidebar-menu-font">Smogodynka menu</p>
                 <ul class="list-unstyled components">
                     <li>
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Wybierz
-                            źródło</a>
-                        <ul class="collapse" id="homeSubmenu">
-                            <li>
-                                <button id="source1" class="btn-sidebar">Źródło 1</button>
-                            </li>
-                            <li>
-                                <button id="source2" class="btn-sidebar">Źródło 2</button>
-                            </li>
-                            <li>
-                                <button id="source3" class="btn-sidebar">Źródło 3</button>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
                         <button id="load" class="btn-sidebar">Wymuś wczytanie</button>
                     </li>
                     <li>
+                        <button id="showBest" class="btn-sidebar">Pokaż najlepsze</button>
+                    </li>
+                    <li>
+                        <button id="showWorst" class="btn-sidebar">Pokaż najgorsze</button>
+                    </li>
+                    <li>
                         <button id="mapButton" class="btn-sidebar">Pokaż mapę</button>
+                    </li>
+                    <li>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Przykładowe dane</a>
+                        <ul class="collapse" id="homeSubmenu">
+                            <li>
+                                <button id="source1" class="btn-sidebar">Przykład 1</button>
+                            </li>
+                            <li>
+                                <button id="source2" class="btn-sidebar">Przykład 2</button>
+                            </li>
+                            <li>
+                                <button id="source3" class="btn-sidebar">Przykład 3</button>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#sensorSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Dane
@@ -65,9 +70,6 @@
                                 <button id="sensorButton" class="btn-sidebar">Sensory</button>
                             </li>
                         </ul>
-                    </li>
-                    <li>
-                        <button id="about" class="btn-sidebar">O aplikacji</button>
                     </li>
                 </ul>
             </div>
@@ -88,7 +90,7 @@
 
                 <div id="aboutBar" class="alert alert-info" style="display: none;">TBD</div>
 
-                <div id="pollutionScreen">
+                <div id="pollutionScreen" class="mx-auto">
                     <div id="overallState" class="mx-auto">Jakość powietrza:
                         <p id='overallStateParagraphValue'>Pobieram dane</p>
                     </div>
@@ -97,9 +99,9 @@
                         <canvas id="myChart" class="chart mx-auto"></canvas>
                     </div>
 
-                    <table id="smog-table" class="table-sm .table-responsive table-hover mx-auto">
+                    <table id="smog-table" class="table-sm .table-responsive table-hover">
                         <thead class="smog-head">
-                            <tr>
+                            <tr class="smog-data-row">
                                 <th>PM10</th>
                                 <th>PM2.5</th>
                                 <th>SO2</th>
@@ -143,8 +145,8 @@
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="js/smogoData.js"></script>
     <script type="text/javascript" src="js/localization.js"></script>
+    <script type="text/javascript" src="js/smogoData.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/mdb.min.js"></script>
     <script type="text/javascript" src="js/popper.min.js"></script>

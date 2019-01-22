@@ -32,10 +32,6 @@ $(document).ready(function () {
 		}
 	})
 
-	$("#about").click(function () {
-		$("#aboutBar").toggle()
-	});
-
 	//lokalizacja i sensory
 	$("#geoButton").click(function () {
 		$("#geoDiv").toggle();
@@ -77,9 +73,29 @@ $(document).ready(function () {
 		load(myCallback, chartCompleteData);
 	}
 
+	function showSmog(command, order) {
+		$("#dataLoader").toggle(true);
+		var chartCompleteData = {};
+		chartCompleteData.chartLabels = [];
+		chartCompleteData.chartData = [];
+		chartCompleteData.chartRawData = [];
+		chartCompleteData.chartStatuses = [];
+		chartCompleteData.chartBackgroundColors = [];
+		chartCompleteData.chartBorderColors = [];
+		chartCompleteData.chartLabel;
+
+		//pobierz dane asynchronicznie z ajaxa w funkcji load, nastepnie na tych danych uruchom drawChrt i drawTable
+		function myCallback(result) {
+			var newData = pickColorsBestWorst(result[0]);
+			drawChartSmog(newData);
+			drawTableBestWorst(result[1], chartCompleteData.chartStatuses)
+		}
+		loadSmog(myCallback, chartCompleteData, command, order);
+	}
+
 	//uruchom funkcje wczytania/rysowania raz, potem uruchamiaj co 15s.
 	window.setInterval(function () {
-		if (pollutionScreenOpen) { showPollutionData(); }
+		if (pollutionScreenOpen) { showSmog('', 0); }
 		sendLocationToServer();
 	}, 15000);
 
@@ -88,8 +104,45 @@ $(document).ready(function () {
 		$("#pollutionScreen").toggle(true);
 		$("#mapScreen").toggle(false);
 		pollutionScreenOpen = true;
-		showPollutionData();
+		order = '';
+		command = 0;
+		showSmog(command, order);
 	});
+
+	$('#showBest').click(function () {
+		$("#pollutionScreen").toggle(true);
+		$("#mapScreen").toggle(false);
+		pollutionScreenOpen = false;
+		order = 'asc';
+		command = 3;
+		showSmog(command, order);
+	});
+
+	$('#showWorst').click(function () {
+		$("#pollutionScreen").toggle(true);
+		$("#mapScreen").toggle(false);
+		pollutionScreenOpen = false;
+		order = 'desc';
+		command = 3;
+		showSmog(command, order);
+	});
+
+	//zmiana zrodla
+	$("#source1").click(function () {
+		getData = 'smog.json'
+		showPollutionData()
+	});
+
+	$("#source2").click(function () {
+		getData = 'smog2.json'
+		showPollutionData()
+	});
+
+	$("#source3").click(function () {
+		getData = 'smog3.json'
+		showPollutionData()
+	});
+
 });
 
 var app = {

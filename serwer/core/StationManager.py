@@ -13,6 +13,10 @@ class StationManager(object):
         dataManager = DataManager("StationInfo", logger=logger)
         dataManager.load("data/stationInfo.json")
 
+        standardsJson = DataManager("StandardsAirQuality", self._logger)
+        standardsJson.load("data/standards.json")
+        self.standards = standardsJson.get()
+
         stations = dataManager.get("stations")
         pointsList = []
         for station in stations:
@@ -31,13 +35,12 @@ class StationManager(object):
 
     def getMeasureForLocation(self, latitude, longitude):
         point = StationInfo(latitude, longitude, {"description": "myGeo"})
-        result = self._data.search_knn(point, 1, self._distance)
+        result = self._data.search_knn(point, 1, self._distanceIgnoreEmpty)
 
         if result:
             return result[0][0].data.data
 
-        return {
-        }
+        return None
 
     def getNearStations(self, latitude, longitude, radius, limit):
         point = StationInfo(latitude, longitude, {"description": "myGeo"})
@@ -52,10 +55,25 @@ class StationManager(object):
             if result[1] < radius:
                 stationsResult.append(result[0].data.data)
 
-        return {
-            "percentage": 0,
-            "measurement": []
-        }
+        return stationsResult
+
+    def _distanceIgnoreEmpty(self, a, b):
+        R = 6373.0
+
+        if "description" in a.data:
+            bId = b.data["id"]
+            bMeasure = self.getMeasurementForStationId(bId)
+            if bMeasure["measurement"]:
+                return self._distance(a, b)
+            return R * R * R
+        elif "description" in b.data:
+            aId = a.data["id"]
+            aMeasure = self.getMeasurementForStationId(aId)
+            if aMeasure["measurement"]:
+                return self._distance(a, b)
+            return R * R * R
+
+        return self._distance(a, b)
 
     def _distance(self, a, b):
         R = 6373.0
@@ -82,11 +100,15 @@ class StationManager(object):
         self._lastMeasureTime = time.time()
 
         currentData = DataManager("CurrentMeasurement", self._logger)
-        currentData.load("data/currentMeasurement.json")
+        currentData.load("data/dane.json")
 
-        standardsJson = DataManager("StandardsAirQuality", self._logger)
-        standardsJson.load("data/standards.json")
-        standards = standardsJson.get()
+        currentData2 = DataManager("CurrentMeasurement", self._logger)
+        currentData2.load("data/datas1.json")
+
+        currentData3 = DataManager("CurrentMeasurement", self._logger)
+        currentData3.load("data/datasNear.json")
+
+        currentDataList = currentData.get() + currentData2.get() + currentData3.get()
 
         maxAirIndex = -1
         airStatus = "No data"
@@ -94,14 +116,17 @@ class StationManager(object):
         self._lastMeasurement = []
         self._stationToMeasure = {}
 
-        for stationMeasure in currentData.get():
+        for stationMeasure in currentDataList:
             measurement = []
             maxLocalPercentage = 0
             if not ("measurements" in stationMeasure and "current" in stationMeasure["measurements"] and "values" in stationMeasure["measurements"]["current"]):
                 continue
             for parameter in stationMeasure["measurements"]["current"]["values"]:
-                if parameter["name"] in standards:
-                    status, percentage, value, airIndex = self._calculateAirIndex(parameter["value"], standards[parameter["name"]])
+                if parameter["name"] in self.standards:
+                    status, percentage, value, airIndex = self._calculateAirIndex(parameter["value"], self.standards[parameter["name"]])
+                    if percentage == 0:
+                        break
+
                     if airIndex > maxAirIndex:
                         maxAirIndex = airIndex
                         airStatus = status
@@ -131,6 +156,17 @@ class StationManager(object):
             self._stationToMeasure[measurement["id"]] = id
 
         return self._lastMeasurement
+
+    def getMeasurementForStationId(self, id):
+        if id not in self._stationToMeasure:
+            return {
+                "id": id,
+                "measurement": []
+            }
+
+        measureId = self._stationToMeasure[id]
+
+        return self._lastMeasurement[measureId]
 
     def _calculateAirIndex(self, value, standards):
         index = -1
