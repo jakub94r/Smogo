@@ -1,9 +1,7 @@
 //lokalizacja
-var dataAddress = 'http://192.168.43.147:8080'
 var postData = dataAddress + '/getNearStations'
 var localizationString = "";
-var latitude = 51.1082584;
-var longitude = 17.0652491;
+
 var nearStationsList = [];
 
 var onSuccess = function (position) {
@@ -37,12 +35,13 @@ function sendLocationToServer() {
     var maxDistance = 15;
     var maxResults = maxDistance * 5;
     $.ajax({
-        url: [postData, latitude, longitude, maxDistance, maxResults].join("/"), //'http://127.0.0.1:8080/postData'
+        url: [postData, latitude, longitude, maxDistance, maxResults].join("/"), //'getNearStations'
         type: 'GET',
         crossDomain: true,
         contentType: 'application/json',
         success: function (data) {
             data.forEach(function (item, index) {
+                //console.log(item);
                 for (var i in nearStationsList) {
                     if (nearStationsList[i].id == item.id) {
                         stationExists = true;
@@ -50,12 +49,12 @@ function sendLocationToServer() {
                     }
                 }
                 if (stationExists == false) {
-                    var currentStation = { "id": item.id, "lat": item.location.latitude, "lng": item.location.longitude, "address": item.address, "sponsor": item.sponsor };
+                    var currentStation = { "id": item.id, "lat": item.location.latitude, "lng": item.location.longitude, "address": item.address, "sponsor": item.sponsor, "airindex": item.measurement.airIndex};
                     nearStationsList.push(currentStation);
                 }
                 stationExists = false;
             });
-            console.log(nearStationsList);
+
         },
         error: function (a, b, c) {
             console.log(JSON.stringify([postData, a, b, c]));
@@ -98,35 +97,44 @@ function addStationsToMap() {
         if ((count % 3) == 0) {
             var currentColor = colorTableEnum.bad;
         }
+        
+        console.log(nearStationsList[count].airindex)
+        currentColor = colorTableEnum2[nearStationsList[count].airindex];
+        //currentColor = colorTableEnum2[nearStationsList[count].measurement.measurement[0].airIndex];
 
-        var innerCircle = new google.maps.Circle({
-            strokeWeight: 0,
-            fillColor: currentColor,
-            fillOpacity: 0.4,
-            map: map,
-            center: { lat: nearStationsList[count].lat, lng: nearStationsList[count].lng },
-            radius: 300
-        });
+        if (true){
+            var innerCircle = new google.maps.Circle({
+                strokeWeight: 0,
+                fillColor: currentColor,
+                fillOpacity: 0.4,
+                map: map,
+                center: { lat: nearStationsList[count].lat, lng: nearStationsList[count].lng },
+                radius: 300
+            });
+    
+            var middleCircle = new google.maps.Circle({
+                strokeWeight: 0,
+                fillColor: currentColor,
+                fillOpacity: 0.3,
+                map: map,
+                center: { lat: nearStationsList[count].lat, lng: nearStationsList[count].lng },
+                radius: 800
+            });
+    
+            var outerCircle = new google.maps.Circle({
+                strokeWeight: 0.8,
+                strokeColor: currentColor,
+                strokeOpacity: 0.2,
+                fillColor: currentColor,
+                fillOpacity: 0.15,
+                map: map,
+                center: { lat: nearStationsList[count].lat, lng: nearStationsList[count].lng },
+                radius: 1300
+            });
+    
+        }
+        
 
-        var middleCircle = new google.maps.Circle({
-            strokeWeight: 0,
-            fillColor: currentColor,
-            fillOpacity: 0.3,
-            map: map,
-            center: { lat: nearStationsList[count].lat, lng: nearStationsList[count].lng },
-            radius: 800
-        });
-
-        var outerCircle = new google.maps.Circle({
-            strokeWeight: 0.8,
-            strokeColor: currentColor,
-            strokeOpacity: 0.2,
-            fillColor: currentColor,
-            fillOpacity: 0.15,
-            map: map,
-            center: { lat: nearStationsList[count].lat, lng: nearStationsList[count].lng },
-            radius: 1300
-        });
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(nearStationsList[count].lat, nearStationsList[count].lng),
             map: map,

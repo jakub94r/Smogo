@@ -13,6 +13,7 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link href="css/all.css" rel="stylesheet">
     <link href="css/mdb.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>Smogodynka</title>
@@ -34,16 +35,13 @@
                 <p align=center class="sidebar-header py-4 mx-auto sidebar-menu-font">Smogodynka menu</p>
                 <ul class="list-unstyled components">
                     <li>
-                        <button id="load" class="btn-sidebar">Wymuś wczytanie</button>
+                        <button id="myLocationInfo" class="btn-sidebar">Moja lokalizacja</button>
                     </li>
                     <li>
-                        <button id="showBest" class="btn-sidebar">Pokaż najlepsze</button>
+                        <button id="showBestList" class="btn-sidebar">Pokaż liste najlepszych</button>
                     </li>
                     <li>
-                        <button id="showWorst" class="btn-sidebar">Pokaż najgorsze</button>
-                    </li>
-                    <li>
-                        <button id="mapButton" class="btn-sidebar">Pokaż mapę</button>
+                        <i class="fas fa-map-marked-alt leftIcon"></i><button id="mapButton" class="btn-sidebar">Pokaż mapę</button>
                     </li>
                     <li>
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="btn btn-sidebar dropdown-toggle">Przykładowe dane</a>
@@ -90,7 +88,7 @@
 
                 <div id="aboutBar" class="alert alert-info" style="display: none;">TBD</div>
 
-                <div id="pollutionScreen" class="mx-auto">
+                <div id="pollutionScreen" class="mx-auto" style="display: none;">
                     <div id="overallState" class="mx-auto">Jakość powietrza:
                         <p id='overallStateParagraphValue'>Pobieram dane</p>
                     </div>
@@ -99,16 +97,10 @@
                         <canvas id="myChart" class="chart mx-auto"></canvas>
                     </div>
 
-                    <table id="smog-table" class="table-sm .table-responsive table-hover">
+                    <table id="smog-table" class="table-sm smog-table .table-responsive table-hover">
                         <thead class="smog-head">
                             <tr class="smog-data-row">
-                                <th>PM10</th>
-                                <th>PM2.5</th>
-                                <th>SO2</th>
-                                <th> O3 </th>
-                                <th>NO2</th>
-                                <th> CO </th>
-                                <th>C6H6</th>
+   
                             </tr>
                         </thead>
                         <tbody class="smog-body">
@@ -125,6 +117,25 @@
                     <h4>Powietrze w Twojej okolicy</h3>
                         <div id="map"></div>
                 </div>
+
+                <div id="rankingPage" style="display: block;">
+                    <table id="rankingPage-table" class="table-sm smog-table table-responsive table-hover">
+                        <thead class="smog-head">
+                            <tr class="smog-data-row">
+                                <th>Id</th>
+                                <th>Status</th>
+                                <th>Ranking</th>
+                                <th>Lokalizacja</th>
+                                <th>Szerokość</th>
+                                <th>Długość</th>
+                            </tr>
+                        </thead>
+                        <tbody class="smog-body">
+    
+                        </tbody>
+                    </table>
+                </div>
+
                 <div id="dataLoader" class="loader" style="display: none;"></div>
 
                 <div id="geoDiv" class="mx-auto" style="display: none;">

@@ -1,5 +1,4 @@
-
-var dataAddress = 'http://192.168.43.147:8080'
+//var dataAddress = 'http://192.168.43.147:8080'
 var getData = dataAddress + '/getLocationAirInfo/' + latitude + '/' + longitude
 //var getData = 'smog.json' //pobierz dane z pliku, zakomentowac zeby pobierac z serwera
 
@@ -92,7 +91,7 @@ function load(callback, chartCompleteData) {
     return newChartCompleteData;
 }
 
-function loadSmog(callback, chartCompleteData, command, order) {
+function loadSmog(callback, chartCompleteData, command, order, limit) {
     var urlValue;
     var receivedData;
     switch (command) {
@@ -106,18 +105,18 @@ function loadSmog(callback, chartCompleteData, command, order) {
 
     $.ajax({
         type: 'GET',
-        url: urlValue,
+        url: urlValue, //przykładowo: http://192.168.43.147:8080/getStationRanking/asc/1/1
         dataType: 'json',
         success: function (data) {
+            if (command==0){ receivedData = data } else { receivedData = data[0] };
             chartCompleteData.chartLabels = [];
             chartCompleteData.chartData = [];
             chartCompleteData.chartRawData = [];
             chartCompleteData.chartStatuses = [];
             chartCompleteData.chartBackgroundColors = [];
             chartCompleteData.chartBorderColors = [];
-            chartCompleteData.chartLabel = data.id;
+            chartCompleteData.chartLabel = receivedData.id;
 
-            if (command==0){ receivedData = data } else { receivedData = data[0] };
 
             $.each(receivedData.measurement, function (i, item) {
                 chartCompleteData.chartLabels.push(item.name);
