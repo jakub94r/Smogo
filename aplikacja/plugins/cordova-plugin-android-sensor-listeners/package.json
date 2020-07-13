@@ -39,7 +39,7 @@
   "devDependencies": {
     "eslint": "^4.13.1",
     "eslint-config-es5": "^0.5.0",
-    "standard-version": "^4.2.0"
+    "standard-version": "^8.0.1"
   },
   "engines": {
     "cordova": ">=3.4.0"
